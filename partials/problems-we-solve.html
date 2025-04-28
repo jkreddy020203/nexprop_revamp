@@ -1,0 +1,211 @@
+<!-- Problem/Solution Section -->
+<section id="problem-solution" class="py-16 sm:py-24 overflow-hidden">
+    <style>
+        /* Embedded styles from brokenstack.css */
+        .pain-points-container ul {
+            list-style: none;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 500px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .pain-points-container li {
+            background-color: #ffffff; /* Use white background */
+            padding: 12px 18px;
+            border-radius: 6px; /* Use md radius */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* Use md shadow */
+            text-align: center;
+            font-weight: 500; /* Equivalent to font-medium */
+            color: #191e33; /* Dark text */
+            font-family: 'Gilroy', sans-serif;
+        }
+
+        /* Apply only rotation via :nth-child */
+        .pain-points-container li:nth-child(1) { transform: rotate(-3deg); }
+        .pain-points-container li:nth-child(2) { transform: rotate(2deg); }
+        .pain-points-container li:nth-child(3) { transform: rotate(4deg); }
+        .pain-points-container li:nth-child(4) { transform: rotate(-2deg); }
+        .pain-points-container li:nth-child(5) { transform: rotate(5deg); }
+        .pain-points-container li:nth-child(6) { transform: rotate(1deg); }
+        .pain-points-container li:nth-child(7) { transform: rotate(-4deg); }
+        .pain-points-container li:nth-child(8) { transform: rotate(3deg); }
+        .pain-points-container li:nth-child(9) { transform: rotate(-1deg); }
+        .pain-points-container li:nth-child(10) { transform: rotate(4deg); }
+        .pain-points-container li:nth-child(11) { transform: rotate(2deg); }
+        .pain-points-container li:nth-child(12) { transform: rotate(-3deg); }
+
+        /* Background Icon Grid */
+        .icon-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            max-width: 400px;
+            z-index: 0;
+            opacity: 0.1; /* Reduced opacity further */
+        }
+
+        .grid-icon {
+            aspect-ratio: 1 / 1;
+            background-color: rgba(255, 255, 255, 0.05); /* Even fainter background */
+            border-radius: 8px; /* lg radius */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5em;
+            color: #fff;
+        }
+
+        /* Pillar Layout Styles */
+        .pillar-layout {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 60px auto;
+            z-index: 1;
+            /* border: 1px solid lime; */ /* Debug border removed */
+        }
+
+        .pillar-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px; /* Slightly larger */
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            z-index: 10;
+             background-color: rgba(255, 255, 255, 0.1); /* Subtle background */
+             backdrop-filter: blur(5px); /* Add blur */
+            box-shadow: 0 0 20px rgba(117, 185, 160, 0.6), /* nv-teal glow */
+                        0 0 35px rgba(117, 185, 160, 0.4); /* Wider nv-teal glow */
+        }
+
+        .logo-image {
+            max-width: 80%; /* Adjust size within circle */
+            max-height: 80%;
+            display: block;
+        }
+
+        /* Puzzle Piece Base Styles */
+        .puzzle-piece {
+            position: absolute;
+            display: block !important;
+            padding: 8px 16px; /* Adjusted padding */
+            color: #ffffff; /* White text */
+            font-family: 'Gilroy Bold', 'Gilroy', sans-serif;
+            font-weight: bold;
+            font-size: 1em; /* Adjusted size */
+            text-align: center;
+            z-index: 15;
+            border-radius: 8px; /* lg radius */
+            background-color: rgba(117, 185, 160, 0.3); /* Semi-transparent nv-teal */
+            border: 1px solid rgba(117, 185, 160, 0.5); /* Subtle nv-teal border */
+            backdrop-filter: blur(3px);
+            transition: all 0.2s ease-in-out;
+        }
+        .puzzle-piece:hover {
+            background-color: rgba(117, 185, 160, 0.5);
+             transform: scale(1.05); /* Slight scale on hover */
+        }
+
+        /* Circular Positioning for Text Elements */
+        .puzzle-top { /* Engage (Top) */
+            top: 10px; /* Adjust distance from center */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .puzzle-bottom { /* Scale (Bottom) */
+            bottom: 10px; /* Adjust distance from center */
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .puzzle-left { /* Automate (Left) */
+            left: 10px; /* Adjust distance from center */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .puzzle-right { /* Close (Right) */
+            right: 10px; /* Adjust distance from center */
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    </style>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex flex-col md:flex-row gap-8 lg:gap-12 items-stretch">
+
+            <!-- Left Column: Problem -->
+            <div class="flex-1 bg-nv-gray-50 rounded-2xl p-8 lg:p-12 flex flex-col">
+                <h1 class="text-3xl lg:text-4xl font-bold tracking-tight text-nv-gray-700 mb-3">The Real Estate Tech Stack Is <span class="text-nv-error">Broken</span>.</h1>
+                <h2 class="text-lg text-nv-gray-700 mb-8 grow">Manual. Fragmented. Reactive. Real estate teams juggle tools that don't talk to each other - and lose deals because of it.</h2>
+                <div class="pain-points-container mt-auto">
+                    <ul>
+                        <li>Fragmented Data</li>
+                        <li>Poor User Adoption</li>
+                        <li>Weak Teamwork</li>
+                        <li>Delayed Follow-Ups</li>
+                        <li>Manual Errors</li>
+                        <li>No Partner Transparency</li>
+                        <li>Inaccurate Sales Forecasts</li>
+                        <li>Slow Lead Scoring</li>
+                        <li>Inventory delays</li>
+                        <li>Lead Conversion Gaps</li>
+                        <li>Restricted Outreach</li>
+                        <li>Fragmented Tools</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Right Column: Solution -->
+            <div class="flex-1 bg-nv-blue rounded-2xl p-8 lg:p-12 text-white flex flex-col text-center relative overflow-hidden">
+                <h1 class="text-3xl lg:text-4xl font-bold tracking-tight mb-3">Nexprop.ai <span class="text-nv-teal">Brings Everything Together.</span></h1>
+                <h2 class="text-lg text-nv-gray-100 mb-10">One AI-powered platform to sell, engage, collaborate, and close - faster and smarter.</h2>
+
+                 <!-- Background Icon Grid -->
+                 <div class="icon-grid">
+                    <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div>
+                    <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div>
+                    <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div>
+                    <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div>
+                    <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div> <div class="grid-icon"></div>
+                 </div>
+
+                <div class="cta-container flex items-center justify-center gap-4 mb-10 z-10 relative">
+                    <a href="#" class="inline-block bg-nv-teal text-nv-blue px-6 py-3 rounded-full text-base font-semibold shadow-md hover:bg-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nv-teal shadow-teal-md hover:shadow-teal-glow transition-all duration-150 ease-in-out hover:-translate-y-0.5">
+                        Get started &rarr;
+                    </a>
+                </div>
+
+                <!-- Pillar Layout -->
+                <div class="pillar-layout grow flex items-center justify-center">
+                    <div class="pillar-center">
+                        <!-- Assuming logo path -->
+                        <img src="assets/images/nexprop_horizontal.png" alt="Nexprop.ai Logo" class="logo-image">
+                    </div>
+                    <!-- Puzzle Pieces -->
+                    <div class="puzzle-piece puzzle-left">Automate</div>
+                    <div class="puzzle-piece puzzle-top">Engage</div>
+                    <div class="puzzle-piece puzzle-right">Close</div>
+                    <div class="puzzle-piece puzzle-bottom">Scale</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section> 

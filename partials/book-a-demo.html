@@ -1,0 +1,93 @@
+<!-- Book a Demo Section -->
+<section class="py-16 relative bg-gradient-to-r from-nv-blue to-nv-blue-400 overflow-hidden">
+    <!-- Decorative Gradient Blob -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute top-0 right-0 w-1/2 h-full bg-white/10 rounded-full blur-3xl transform translate-x-1/4 -translate-y-1/4"></div>
+        <div class="absolute bottom-0 left-0 w-1/2 h-full bg-nv-teal/20 rounded-full blur-3xl transform -translate-x-1/4 translate-y-1/4"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
+        <div class="flex flex-col lg:flex-row items-center justify-between gap-12">
+            <!-- Left Content Column -->
+            <div class="lg:w-1/2 text-white">
+                <h2 class="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                    Supercharge your<br>property management
+                </h2>
+                <p class="text-lg md:text-xl mb-8 opacity-90 max-w-lg">
+                    Organize properties, collaborate on deals, track performance, and 
+                    streamline team communication—all in one place, 
+                    enhanced by AI.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 items-center">
+                    <a href="#get-started" class="bg-white hover:bg-nv-teal text-nv-blue hover:text-white font-semibold py-3 px-8 rounded-lg transition-all duration-300 inline-flex items-center group">
+                        Get started. It's FREE
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <a href="#book-demo" class="text-white border border-white hover:bg-white/10 font-medium py-3 px-8 rounded-lg transition-all duration-300">
+                        Book a Demo
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Right Column - Demo Form -->
+            <div class="lg:w-1/2">
+                <div class="bg-white rounded-xl shadow-xl p-6 md:p-8 transform transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl">
+                    <h3 class="text-2xl font-bold text-nv-blue mb-6">Schedule Your Demo</h3>
+                    
+                    <form id="demo-form" class="space-y-4">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label for="first-name" class="block text-sm font-medium text-nv-gray-700">First Name</label>
+                                <input type="text" id="first-name" name="first-name" class="w-full px-4 py-3 border border-nv-gray-300 rounded-lg focus:ring-2 focus:ring-nv-teal focus:border-nv-teal" placeholder="John">
+                            </div>
+                            
+                            <div class="space-y-2">
+                                <label for="last-name" class="block text-sm font-medium text-nv-gray-700">Last Name</label>
+                                <input type="text" id="last-name" name="last-name" class="w-full px-4 py-3 border border-nv-gray-300 rounded-lg focus:ring-2 focus:ring-nv-teal focus:border-nv-teal" placeholder="Doe">
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label for="email" class="block text-sm font-medium text-nv-gray-700">Work Email</label>
+                            <input type="email" id="email" name="email" class="w-full px-4 py-3 border border-nv-gray-300 rounded-lg focus:ring-2 focus:ring-nv-teal focus:border-nv-teal" placeholder="john@company.com">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label for="company" class="block text-sm font-medium text-nv-gray-700">Company Name</label>
+                            <input type="text" id="company" name="company" class="w-full px-4 py-3 border border-nv-gray-300 rounded-lg focus:ring-2 focus:ring-nv-teal focus:border-nv-teal" placeholder="Your Company Ltd.">
+                        </div>
+                        
+                        <div class="space-y-2">
+                            <label for="property-count" class="block text-sm font-medium text-nv-gray-700">Number of Properties</label>
+                            <select id="property-count" name="property-count" class="w-full px-4 py-3 border border-nv-gray-300 rounded-lg focus:ring-2 focus:ring-nv-teal focus:border-nv-teal">
+                                <option value="" disabled selected>Select property count</option>
+                                <option value="1-10">1-10 properties</option>
+                                <option value="11-50">11-50 properties</option>
+                                <option value="51-200">51-200 properties</option>
+                                <option value="201+">201+ properties</option>
+                            </select>
+                        </div>
+                        
+                        <div class="pt-2">
+                            <button type="submit" class="w-full bg-nv-blue hover:bg-nv-teal text-white font-bold py-3 px-8 rounded-lg transition-colors duration-300 flex items-center justify-center">
+                                Book Your Demo
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-8.707l-3-3a1 1 0 00-1.414 1.414L10.586 9H7a1 1 0 100 2h3.586l-1.293 1.293a1 1 0 101.414 1.414l3-3a1 1 0 000-1.414z" clip-rule="evenodd" />
+                                </svg>
+                            </button>
+                        </div>
+                        
+                        <p class="text-xs text-nv-gray-700 text-center mt-4">
+                            By submitting this form, you agree to our 
+                            <a href="#" class="text-nv-blue hover:text-nv-teal underline">Terms of Service</a> and 
+                            <a href="#" class="text-nv-blue hover:text-nv-teal underline">Privacy Policy</a>.
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section> 

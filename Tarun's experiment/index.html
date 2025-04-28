@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Powered Results</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<section class="results-section">
+    <h2 class="section-title">Built for <strong>Results</strong>. Backed by <strong>Data</strong>.</h2>
+
+    <div class="central-container">
+        <img src="Nexprop.ai Logo.png.png" alt="AI Powered Logo" class="central-logo"> 
+
+        <svg class="connecting-lines" width="100%" height="100%" viewBox="0 0 650 550" preserveAspectRatio="none">
+            <defs>
+                <filter id="line-glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <!-- Blur the original line -->
+                    <feGaussianBlur stdDeviation="6" result="coloredBlur"></feGaussianBlur> 
+                    <feMerge>
+                        <!-- Combine the blur and the original line -->
+                        <feMergeNode in="coloredBlur"></feMergeNode>
+                        <feMergeNode in="SourceGraphic"></feMergeNode>
+                    </feMerge>
+                </filter>
+
+                <!-- Filter for the moving green glow -->
+                <filter id="green-pulse-glow" x="-50%" y="-50%" width="200%" height="200%">
+                     <feGaussianBlur stdDeviation="5" result="coloredBlur"></feGaussianBlur> 
+                     <!-- Define green color -->
+                     <feFlood flood-color="#28a745" flood-opacity="0.8" result="flood"/> 
+                     <!-- Composite the color onto the blur -->
+                     <feComposite in="flood" in2="coloredBlur" operator="in" result="glowColor"/>
+                     <feMerge>
+                        <feMergeNode in="glowColor"/>
+                        <feMergeNode in="SourceGraphic"/>
+                     </feMerge>
+                 </filter>
+
+                 <!-- The small green circle element that will move -->
+                 <circle id="green-pulse" r="4" fill="#28a745" filter="url(#green-pulse-glow)" />
+
+            </defs>
+            
+            <!-- Paths connecting center to boxes -->
+            <!-- Coordinates require significant manual refinement -->
+            
+            <!-- Path to Top Center (TC) - Even more complex shape -->
+            <path id="path-tc" d="M 325,225 L 325,190 L 370,190 L 370,150 L 300,150 L 300,110 L 325, 110 L 325,85" filter="url(#line-glow)" /> 
+            
+            <!-- Path to Top Left (TL) - Even more complex shape -->
+            <path id="path-tl" d="M 290,240 L 220,240 L 220,200 L 150,200 L 150,150 L 90,150 L 90,170" filter="url(#line-glow)" /> 
+            
+            <!-- Path to Top Right (TR) - Even more complex shape -->
+            <path id="path-tr" d="M 360,240 L 430,240 L 430,200 L 500,200 L 500,150 L 560,150 L 560,170" filter="url(#line-glow)" />
+            
+            <!-- Path to Bottom Left (BL) - Even more complex shape -->
+            <path id="path-bl" d="M 290,310 L 220,310 L 220,350 L 150,350 L 150,420 L 90,420 L 90,460" filter="url(#line-glow)" />
+
+            <!-- Path to Bottom Right (BR) - Even more complex shape -->
+            <path id="path-br" d="M 360,310 L 430,310 L 430,350 L 500,350 L 500,420 L 560,420 L 560,460" filter="url(#line-glow)" />
+
+            <!-- Animated Green Pulses -->
+            <use class="animated-pulse" xlink:href="#green-pulse">
+                <animateMotion dur="2.5s" repeatCount="indefinite">
+                    <mpath xlink:href="#path-tc"/>
+                </animateMotion>
+            </use>
+            <use class="animated-pulse" xlink:href="#green-pulse">
+                <animateMotion dur="3s" repeatCount="indefinite">
+                    <mpath xlink:href="#path-tl"/>
+                </animateMotion>
+            </use>
+            <use class="animated-pulse" xlink:href="#green-pulse">
+                <animateMotion dur="3.5s" repeatCount="indefinite">
+                    <mpath xlink:href="#path-tr"/>
+                </animateMotion>
+            </use>
+            <use class="animated-pulse" xlink:href="#green-pulse">
+                <animateMotion dur="4s" repeatCount="indefinite">
+                    <mpath xlink:href="#path-bl"/>
+                </animateMotion>
+            </use>
+            <use class="animated-pulse" xlink:href="#green-pulse">
+                <animateMotion dur="4.5s" repeatCount="indefinite">
+                    <mpath xlink:href="#path-br"/>
+                </animateMotion>
+            </use>
+
+            <!-- Decorative Paths - Updated & More Added -->
+            <path d="M 310,225 L 260,225 L 260,180 L 230, 180" filter="url(#line-glow)" />
+            <path d="M 340,225 L 390,225 L 390,180 L 420, 180" filter="url(#line-glow)" />
+            <path d="M 275,260 L 210,260 L 210,290" filter="url(#line-glow)" />
+            <path d="M 375,260 L 440,260 L 440,290" filter="url(#line-glow)" />
+            <path d="M 310,325 L 260,325 L 260,370 L 230, 370" filter="url(#line-glow)" />
+            <path d="M 340,325 L 390,325 L 390,370 L 420, 370" filter="url(#line-glow)" />
+            <!-- New Decorative -->
+            <path d="M 275,285 L 230, 285" filter="url(#line-glow)" />
+            <path d="M 375,285 L 420, 285" filter="url(#line-glow)" />
+            <path d="M 325,325 L 325, 380" filter="url(#line-glow)" />
+
+            <!-- Even More Decorative -->
+            <path d="M 275, 245 L 180, 245 L 180, 280" filter="url(#line-glow)" />
+            <path d="M 375, 245 L 470, 245 L 470, 280" filter="url(#line-glow)" />
+            <path d="M 325, 225 L 380, 225 L 380, 100" filter="url(#line-glow)" />
+
+            <!-- 7 More Decorative Lines -->
+            <path d="M 280, 230 L 150, 230" filter="url(#line-glow)" />
+            <path d="M 370, 230 L 500, 230" filter="url(#line-glow)" />
+            <path d="M 280, 320 L 150, 320" filter="url(#line-glow)" />
+            <path d="M 370, 320 L 500, 320" filter="url(#line-glow)" />
+            <path d="M 275, 275 L 220, 275 L 220, 320" filter="url(#line-glow)" />
+            <path d="M 375, 275 L 430, 275 L 430, 320" filter="url(#line-glow)" />
+            <path d="M 325, 325 L 325, 450 L 380, 450" filter="url(#line-glow)" />
+
+            <!-- Endpoint Circles - Updated & More Added -->
+            <circle class="endpoint-circle" cx="325" cy="85" r="3" filter="url(#line-glow)" /> <!-- TC -->
+            <circle class="endpoint-circle" cx="90" cy="170" r="3" filter="url(#line-glow)" /> <!-- TL -->
+            <circle class="endpoint-circle" cx="560" cy="170" r="3" filter="url(#line-glow)" /> <!-- TR -->
+            <circle class="endpoint-circle" cx="90" cy="460" r="3" filter="url(#line-glow)" /> <!-- BL -->
+            <circle class="endpoint-circle" cx="560" cy="460" r="3" filter="url(#line-glow)" /> <!-- BR -->
+            <circle class="endpoint-circle" cx="230" cy="180" r="3" filter="url(#line-glow)" /> <!-- Decor 1 -->
+            <circle class="endpoint-circle" cx="420" cy="180" r="3" filter="url(#line-glow)" /> <!-- Decor 2 -->
+            <circle class="endpoint-circle" cx="210" cy="290" r="3" filter="url(#line-glow)" /> <!-- Decor 3 -->
+            <circle class="endpoint-circle" cx="440" cy="290" r="3" filter="url(#line-glow)" /> <!-- Decor 4 -->
+            <circle class="endpoint-circle" cx="230" cy="370" r="3" filter="url(#line-glow)" /> <!-- Decor 5 -->
+            <circle class="endpoint-circle" cx="420" cy="370" r="3" filter="url(#line-glow)" /> <!-- Decor 6 -->
+            <!-- New Circles -->
+            <circle class="endpoint-circle" cx="230" cy="285" r="3" filter="url(#line-glow)" /> <!-- Decor 7 -->
+            <circle class="endpoint-circle" cx="420" cy="285" r="3" filter="url(#line-glow)" /> <!-- Decor 8 -->
+            <circle class="endpoint-circle" cx="325" cy="380" r="3" filter="url(#line-glow)" /> <!-- Decor 9 -->
+            <!-- Circles for Even More Decor -->
+            <circle class="endpoint-circle" cx="180" cy="280" r="3" filter="url(#line-glow)" /> <!-- Decor 10 -->
+            <circle class="endpoint-circle" cx="470" cy="280" r="3" filter="url(#line-glow)" /> <!-- Decor 11 -->
+            <circle class="endpoint-circle" cx="380" cy="100" r="3" filter="url(#line-glow)" /> <!-- Decor 12 -->
+            <!-- Circles for 7 More Decor -->
+            <circle class="endpoint-circle" cx="150" cy="230" r="3" filter="url(#line-glow)" /> <!-- Decor 13 -->
+            <circle class="endpoint-circle" cx="500" cy="230" r="3" filter="url(#line-glow)" /> <!-- Decor 14 -->
+            <circle class="endpoint-circle" cx="150" cy="320" r="3" filter="url(#line-glow)" /> <!-- Decor 15 -->
+            <circle class="endpoint-circle" cx="500" cy="320" r="3" filter="url(#line-glow)" /> <!-- Decor 16 -->
+            <circle class="endpoint-circle" cx="220" cy="320" r="3" filter="url(#line-glow)" /> <!-- Decor 17 -->
+            <circle class="endpoint-circle" cx="430" cy="320" r="3" filter="url(#line-glow)" /> <!-- Decor 18 -->
+            <circle class="endpoint-circle" cx="380" cy="450" r="3" filter="url(#line-glow)" /> <!-- Decor 19 -->
+
+        </svg>
+
+        <div class="stat-box stat-box-tc">
+            <span class="stat-number">1.5X</span>
+            <p class="stat-description">Increase in Net Promoter Score</p>
+        </div>
+
+        <div class="stat-box stat-box-tl">
+            <span class="stat-number">Up to 5X</span>
+            <p class="stat-description">ROI within 90 days</p>
+        </div>
+
+        <div class="stat-box stat-box-tr">
+            <span class="stat-number">90%</span>
+            <p class="stat-description">Workflows Automation</p>
+        </div>
+
+        <div class="stat-box stat-box-bl">
+            <span class="stat-number">2.5X</span>
+            <p class="stat-description">Increase in Lead Conversion Rates</p>
+        </div>
+
+        <div class="stat-box stat-box-br">
+            <span class="stat-number">80%</span>
+            <p class="stat-description">Increase in Customer Engagement</p>
+        </div>
+    </div>
+</section>
+
+<script src="script.js"></script>
+</body>
+</html> 

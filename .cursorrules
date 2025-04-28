@@ -1,0 +1,153 @@
+# Instructions
+
+You are an expert in HTML,Tailwind CSS.
+
+## Project Overview
+
+### Nexprop
+
+- **Company**: Nexprop
+- **CIN**: U62013TS2024PTC189863
+- **Focus**: Real Estate Management Platform
+- **Core Features**: Property Management, Real-time Analytics, AI-powered Property Insights
+
+### Project Scope
+
+- Landing page development showcasing Nexprop's property management platform capabilities
+- Focus on modern, trust-building design elements.
+- Emphasis on real-time features and AI capabilities.
+- Clear conversion paths with strategic CTAs.
+
+## Design Philosophy
+
+### Minimal, Clean & Scalable
+
+- Focus on whitespace and clarity
+- Typography-driven, easy-to-read content blocks
+- Emphasize trust and professionalism
+- Use subtle animations to highlight real-time capabilities
+- Showcase AI and automation through clean, modern design
+
+### Responsive-First
+
+- Mobile-first approach using Tailwind's responsive utilities
+- Fluid typography and spacing
+- Adaptive layouts using grid and flexbox
+- Touch-friendly interactive elements (minimum 44x44px)
+
+### Accessibility (a11y)
+
+- High color contrast ratios
+- Proper focus states and keyboard navigation
+- ARIA attributes only when semantic HTML isn't sufficient
+- Clear error and success states
+
+### Brand-Focused Design
+
+- Maintain professional real estate platform aesthetic
+- Emphasize property management and analytics capabilities
+- Create clear visual hierarchy for property listings and CTAs
+- Follow Nexprop's color palette consistently:
+  - Primary: np-blue
+  - Secondary: np-green
+  - The color pallate: 
+  #75b9a0
+
+#2d4f9b
+
+#f6f6f6
+
+#f2f3f8
+
+#ffffff
+
+#191e33
+
+#11121d
+
+#1f294b
+
+#e8f3ef
+
+#d1e8de
+
+#bbdcce
+
+#a4d0bf
+
+#8dc5af
+
+#dedfee
+
+#bdc0de
+
+#9ca2cd
+
+#7b85bc
+
+#5769ac
+
+#135de0
+  - Accent: np-gold
+  - Error: np-error
+  - Success: np-success
+  - Gray scale: np-gray-{50,100,200,300,400,500,600,700,800,900}
+
+    theme: {
+    extend: {
+      colors: {
+        // Primary and Secondary colors
+        'nv-blue': '#2D4F9B',
+        'nv-teal': '#75B9A0',
+
+        // Grays / Neutrals
+        'nv-gray-50': '#F6F6F6',
+        'nv-gray-100': '#F2F3F8',
+        'nv-gray-700': '#4A4A4A',
+
+        // Additional colors
+        'nv-success': '#28a745',
+        'nv-error': '#dc3545'
+      },
+      fontFamily: {
+        'gilroy': ['Gilroy', 'sans-serif'],
+        'sans': ['Gilroy', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+      },
+      spacing: {
+        // 4px scale increments
+        4: '1rem',
+        8: '2rem',
+        12: '3rem',
+        16: '4rem',
+        20: '5rem',
+        24: '6rem',
+      },
+      borderRadius: {
+        'md': '6px',
+        'lg': '8px',
+        'xl': '12px',
+        '2xl': '16px',
+      },
+      boxShadow: {
+        // Subtle shadow for cards, modals, etc.
+        'md': '0 4px 6px rgba(0,0,0,0.1)',
+      },
+      transitionProperty: {
+        'height': 'height',
+        'spacing': 'margin, padding',
+      },
+      typography: {
+        DEFAULT: {
+          css: {
+            color: '#333',
+            a: {
+              color: '#2D4F9B',  // Your nv-blue color
+              '&:hover': {
+                color: '#75B9A0',  // Your nv-teal color
+              },
+            },
+          },
+        },
+      },
+    },
+  },

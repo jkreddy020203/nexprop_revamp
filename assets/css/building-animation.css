@@ -1,0 +1,138 @@
+/* Building Animation Styles */
+.building-animation-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.building-animation {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: auto;
+    transform: translateY(100%);
+    animation: rise-buildings 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    /* Ensure the image covers the container nicely */
+    background-size: cover;
+    background-position: bottom center;
+}
+
+/* Primary animation: buildings rising from bottom */
+@keyframes rise-buildings {
+    0% {
+        transform: translateY(100%);
+        opacity: 0.8;
+    }
+    60% {
+        transform: translateY(5%);
+        opacity: 0.9;
+    }
+    80% {
+        transform: translateY(-2%);
+        opacity: 0.95;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Subtle floating effect after rising for more life */
+@media (prefers-reduced-motion: no-preference) {
+    .building-animation {
+        animation: rise-buildings 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards, 
+                   float-buildings 8s ease-in-out infinite 1.5s;
+    }
+    
+    @keyframes float-buildings {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+    
+    /* Different timing for multi-layer animation */
+    .building-layer-bg {
+        animation: rise-buildings 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards,
+                   float-buildings 10s ease-in-out infinite 1.8s;
+    }
+    
+    .building-layer-middle {
+        animation: rise-buildings 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.2s,
+                   float-buildings 8s ease-in-out infinite 1.7s;
+    }
+    
+    .building-layer-front {
+        animation: rise-buildings 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards 0.4s,
+                   float-buildings 6s ease-in-out infinite 1.6s;
+    }
+}
+
+/* Optional: Make the animation play only when scrolled into view */
+.animate-on-scroll {
+    opacity: 0;
+}
+
+.animate-on-scroll.animate {
+    opacity: 1;
+}
+
+/* Add a reduced motion option for accessibility */
+@media (prefers-reduced-motion: reduce) {
+    .building-animation {
+        animation: rise-buildings 0.5s linear forwards;
+    }
+    
+    .building-layer-bg,
+    .building-layer-middle,
+    .building-layer-front {
+        animation: rise-buildings 0.5s linear forwards;
+    }
+}
+
+/* Animation delay classes for a staggered effect if needed */
+.delay-100 {
+    animation-delay: 100ms !important;
+}
+
+.delay-200 {
+    animation-delay: 200ms !important;
+}
+
+.delay-300 {
+    animation-delay: 300ms !important;
+}
+
+/* Multi-layer effects for advanced animation */
+.building-layer-bg {
+    z-index: 1;
+    transform-origin: bottom center;
+}
+
+.building-layer-middle {
+    z-index: 2;
+    transform-origin: bottom center;
+}
+
+.building-layer-front {
+    z-index: 3;
+    transform-origin: bottom center;
+}
+
+/* Optional: Add subtle shadow to layers for depth */
+.building-layer-front {
+    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.1));
+}
+
+/* Animation for multiple building groups */
+.building-group:nth-child(odd) {
+    animation-delay: 0.2s;
+}
+
+.building-group:nth-child(even) {
+    animation-delay: 0.4s;
+} 

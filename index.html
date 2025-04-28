@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexprop - AI-Powered Real Estate Management</title>
+    <!-- Google Font: Gilroy (Example weights) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gilroy:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Swiper.js CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+    <!-- Building Animation CSS -->
+    <link rel="stylesheet" href="/assets/css/building-animation.css" />
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                // Primary brand colors
+                'nv-blue': '#2D4F9B',
+                'nv-teal': '#75B9A0',
+                
+                // Dark shades (based on your blue palette)
+                'nv-dark': {
+                  900: '#11121d', // Darkest shade
+                  800: '#191e33',
+                  700: '#1f294b', // Medium-dark shade
+                  600: '#2D4F9B', // Same as nv-blue for consistency
+                },
+                
+                // Teal shades
+                'nv-teal': {
+                  DEFAULT: '#75B9A0',
+                  50: '#e8f3ef',
+                  100: '#d1e8de',
+                  200: '#bbdcce',
+                  300: '#a4d0bf',
+                  400: '#8dc5af',
+                  500: '#75B9A0', // Same as nv-teal for consistency
+                },
+                
+                // Blue shades
+                'nv-blue': {
+                  DEFAULT: '#2D4F9B',
+                  50: '#dedfee',
+                  100: '#bdc0de',
+                  200: '#9ca2cd',
+                  300: '#7b85bc',
+                  400: '#5769ac',
+                  500: '#2D4F9B', // Same as nv-blue for consistency
+                  600: '#135de0', // Your accent blue
+                },
+                
+                // Gray scale
+                'nv-gray': {
+                  50: '#F6F6F6',
+                  100: '#F2F3F8',
+                  200: '#e5e7eb',
+                  300: '#d1d5db',
+                  400: '#9ca3af',
+                  500: '#6b7280',
+                  600: '#4b5563',
+                  700: '#4A4A4A',
+                },
+                
+                // Utility colors
+                'nv-success': '#28a745',
+                'nv-error': '#dc3545',
+                
+                // Map brand colors to Tailwind defaults for consistency
+                primary: '#2D4F9B', // nv-blue
+                secondary: '#75B9A0', // nv-teal
+              },
+              fontFamily: {
+                'gilroy': ['Gilroy', 'sans-serif'],
+                'sans': ['Gilroy', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+              },
+              spacing: {
+                '4': '1rem',
+                '8': '2rem',
+                '12': '3rem',
+                '16': '4rem',
+                '20': '5rem',
+                '24': '6rem',
+              },
+              borderRadius: {
+                'md': '6px',
+                'lg': '8px',
+                'xl': '12px',
+                '2xl': '16px',
+              },
+              boxShadow: {
+                'md': '0 4px 6px rgba(0,0,0,0.1)',
+                'teal-md': '0 4px 6px rgba(117, 185, 160, 0.3)', // nv-teal at 30% opacity
+                'teal-glow': '0 0 15px 5px rgba(117, 185, 160, 0.5)', // Larger blur, spread, more opacity
+                'blue-md': '0 4px 6px rgba(45, 79, 155, 0.3)', // nv-blue at 30% opacity
+                'blue-glow': '0 0 15px 5px rgba(45, 79, 155, 0.5)', // Blue glow variant
+              }
+            }
+          }
+        }
+      </script>
+    <!-- Custom Swiper Styles -->
+    <style>
+        .swiper-button-next,
+        .swiper-button-prev {
+            color: #2D4F9B; /* nv-blue */
+            background-color: rgba(255, 255, 255, 0.8);
+            width: 2.5rem; /* w-10 */
+            height: 2.5rem; /* h-10 */
+            border-radius: 9999px; /* rounded-full */
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1); /* shadow-md */
+            transition: background-color 0.2s ease-in-out;
+        }
+        .swiper-button-next:hover,
+        .swiper-button-prev:hover {
+            background-color: rgba(255, 255, 255, 1);
+        }
+        .swiper-button-next::after,
+        .swiper-button-prev::after {
+            font-size: 1rem; /* text-base */
+            font-weight: 600; /* font-semibold */
+        }
+        .swiper-pagination-bullet {
+            background-color: #A0AEC0; /* gray-400 */
+            opacity: 0.8;
+        }
+        .swiper-pagination-bullet-active {
+            background-color: #2D4F9B; /* nv-blue */
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-white font-sans text-nv-gray-700 relative">
+
+    <!-- Cursor Gradient Effect (Blue Layer) -->
+    <div id="cursor-gradient-blue" class="pointer-events-none fixed inset-0 -z-10 transition duration-300"
+         style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(45, 79, 155, 0.2), transparent 40%); opacity: 1;">
+    </div>
+    <!-- Cursor Gradient Effect (Teal Layer) -->     
+     <div id="cursor-gradient-teal" class="pointer-events-none fixed inset-0 -z-10 transition duration-300"
+         style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(117, 185, 160, 0.3), transparent 40%); opacity: 0;">
+    </div>
+
+    <!-- NOTE: Partials will be loaded dynamically via JavaScript -->
+    <div data-include="partials/navbar.html"></div>
+    <div data-include="partials/hero-section.html"></div>
+    <div data-include="partials/impact-metrics.html"></div>
+    <div data-include="partials/problems-we-solve.html"></div>
+    <div data-include="partials/modules-overview.html"></div>
+    
+    <!-- Why Nexprop.ai Section -->
+    <div data-include="partials/why-nexprop.html"></div>
+    
+    <!-- Testimonials Section -->
+    <div data-include="partials/resources.html"></div>
+    
+    <!-- Book a Demo Section -->
+    <div data-include="partials/book-a-demo.html"></div>
+    
+    <!-- Footer Section -->
+    <div data-include="partials/footer.html"></div>
+
+    <!-- Dynamic Include Script (should run before other scripts that depend on partials) -->
+    <script>
+      function initializeIncludedScripts() {
+        console.log('All partials loaded via fetch. Initializing dependent scripts...');
+
+        // Initialize Building Animation
+        console.log('Initializing building animation...');
+        const buildingElement = document.querySelector('.building-animation');
+        if (buildingElement) {
+            // Force a repaint to ensure animation plays correctly
+            void buildingElement.offsetWidth;
+            console.log('Building animation initialized.');
+            
+            // For advanced animation with multiple layers
+            const advancedHero = document.getElementById('animated-hero-advanced');
+            if (advancedHero && typeof createBuildingLayers === 'function') {
+                createBuildingLayers();
+                console.log('Advanced building layers created.');
+            }
+        } else {
+            console.log('Building animation elements not found.');
+        }
+
+        // Re-initialize Mobile Menu Toggle
+        const mobileMenuBtn = document.querySelector('button[aria-controls="mobile-menu"]');
+        const mobileMenu = document.getElementById('mobile-menu');
+        if (mobileMenuBtn && mobileMenu) {
+          const openIcon = mobileMenuBtn.querySelector('svg.block');
+          const closeIcon = mobileMenuBtn.querySelector('svg.hidden');
+          // Remove previous listener if any to prevent duplicates
+          mobileMenuBtn.replaceWith(mobileMenuBtn.cloneNode(true)); // Simple way to remove listeners
+          // Re-find the button after cloning
+          const newMobileMenuBtn = document.querySelector('button[aria-controls="mobile-menu"]');
+          newMobileMenuBtn.addEventListener('click', () => {
+            const isExpanded = newMobileMenuBtn.getAttribute('aria-expanded') === 'true';
+            newMobileMenuBtn.setAttribute('aria-expanded', !isExpanded);
+            mobileMenu.style.display = isExpanded ? 'none' : 'block';
+            // Ensure icons exist before manipulating style
+            if(openIcon) openIcon.style.display = isExpanded ? 'block' : 'none';
+            if(closeIcon) closeIcon.style.display = isExpanded ? 'none' : 'block';
+          });
+          console.log('Mobile menu re-initialized.');
+        }
+
+        // Re-initialize Header Slide-in (if header is in a partial - navbar.html)
+        const header = document.getElementById('main-header');
+        if (header && header.classList.contains('opacity-0')) { // Check if it needs animation
+            console.log('Re-initializing header animation.');
+            // Ensure classes are applied for initial state before transition
+            header.classList.add('opacity-0', '-translate-y-full'); 
+            setTimeout(() => {
+                header.classList.remove('opacity-0', '-translate-y-full');
+                header.classList.add('opacity-100', 'translate-y-0');
+            }, 50); // Shorter delay might be okay now
+        } else if (header) {
+             // If header exists but doesn't have opacity-0, ensure it's visible
+             header.classList.add('opacity-100', 'translate-y-0');
+             header.classList.remove('opacity-0', '-translate-y-full');
+        }
+
+        // Re-initialize Nav Dropdown Hover
+        console.log('Attempting to re-initialize Nav dropdowns...');
+        const dropdownTriggers = document.querySelectorAll('[data-dropdown-trigger]');
+        console.log(`Found ${dropdownTriggers.length} dropdown triggers.`);
+        dropdownTriggers.forEach(triggerLink => {
+            const content = triggerLink.querySelector('[data-dropdown-content]');
+            if (!content) {
+                 console.log('Dropdown trigger found, but no content panel inside it.', triggerLink);
+                 return; 
+            }
+            let leaveTimeout; 
+            // Remove the potentially problematic cloning - just attach listeners
+            // triggerLink.replaceWith(triggerLink.cloneNode(true)); 
+            // const newTriggerLink = document.querySelector(...) || triggerLink; 
+            
+            const showDropdown = () => {
+                clearTimeout(leaveTimeout);
+                content.classList.remove('hidden');
+
+                // >> Force hide Features submenus before showing main panel <<
+                if (mainDropdownPanel && content === mainDropdownPanel) {
+                    console.log('[Features Submenu] Forcing hide on initial show');
+                    const submenuPanels = mainDropdownPanel.querySelectorAll('[data-submenu-content]');
+                    submenuPanels.forEach(panel => {
+                        panel.classList.remove('opacity-100', 'visible', 'pointer-events-auto');
+                        panel.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+                    });
+                }
+
+                // Proceed with showing the main dropdown content panel
+                requestAnimationFrame(() => {
+                     content.classList.remove('opacity-0', '-translate-y-2');
+                     content.classList.add('opacity-100', 'translate-y-0');
+                });
+            };
+            const startHideTimer = () => {
+                clearTimeout(leaveTimeout);
+                leaveTimeout = setTimeout(() => {
+                    content.classList.remove('opacity-100', 'translate-y-0');
+                    content.classList.add('opacity-0', '-translate-y-2');
+                    setTimeout(() => content.classList.add('hidden'), 150);
+                }, 50);
+            };
+
+            // Use the original triggerLink variable directly
+            triggerLink.addEventListener('mouseenter', showDropdown);
+            triggerLink.addEventListener('mouseleave', startHideTimer);
+            content.addEventListener('mouseenter', () => clearTimeout(leaveTimeout));
+            content.addEventListener('mouseleave', startHideTimer);
+        });
+        console.log('Nav dropdowns re-initialization complete.');
+
+        // Re-initialize Features Submenu Hover
+        console.log('Attempting to re-initialize Features submenu...');
+        const featuresTrigger = document.querySelector('[data-submenu-trigger][data-target="#submenu-pre-sales"]')?.closest('[data-dropdown-trigger]');
+        const mainDropdownPanel = featuresTrigger?.querySelector('[data-main-dropdown]');
+
+        if (mainDropdownPanel) {
+            console.log('Found main features dropdown panel.');
+            const submenuTriggers = mainDropdownPanel.querySelectorAll('[data-submenu-trigger]');
+            const submenuPanels = mainDropdownPanel.querySelectorAll('[data-submenu-content]');
+            console.log(`Found ${submenuTriggers.length} submenu triggers and ${submenuPanels.length} submenu panels.`);
+
+            // --- REVISED LOGIC START ---
+            submenuTriggers.forEach(trigger => {
+                trigger.addEventListener('mouseenter', () => {
+                   const targetId = trigger.getAttribute('data-target');
+                   if (!targetId) return;
+                   const targetPanelId = targetId.substring(1);
+
+                   submenuPanels.forEach(panel => {
+                       if (panel.id === targetPanelId) {
+                           // Show target
+                           panel.classList.remove('opacity-0', 'invisible', 'pointer-events-none');
+                           panel.classList.add('opacity-100', 'visible', 'pointer-events-auto');
+                       } else {
+                           // Hide others
+                           panel.classList.remove('opacity-100', 'visible', 'pointer-events-auto');
+                           panel.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+                       }
+                   });
+                });
+            });
+
+            // Mouse leaving the main dropdown area hides all submenus
+            mainDropdownPanel.addEventListener('mouseleave', () => {
+                submenuPanels.forEach(panel => {
+                    panel.classList.remove('opacity-100', 'visible', 'pointer-events-auto');
+                    panel.classList.add('opacity-0', 'invisible', 'pointer-events-none');
+                });
+            });
+            // --- REVISED LOGIC END ---
+
+            console.log('Features submenu re-initialization complete.');
+        } else {
+            console.log('Features dropdown panel not found.');
+        }
+
+        // Re-initialize Impact Metrics Animations
+        console.log('Attempting to re-initialize Impact Metrics observer...');
+        const impactMetricsSectionNeural = document.getElementById('impact-metrics-neural');
+        if (impactMetricsSectionNeural) {
+             console.log('Found impact metrics section:', impactMetricsSectionNeural);
+             const countersNeural = impactMetricsSectionNeural.querySelectorAll('.count-up');
+             console.log(`Found ${countersNeural.length} count-up elements.`);
+             let animationNeuralStarted = false; // Scope this locally
+
+              const animateCounterNeural = (counter) => {
+                  console.log('Animating counter:', counter);
+                  const target = parseFloat(counter.getAttribute('data-target'));
+                  const duration = 1500; // milliseconds
+                  const decimalPlaces = parseInt(counter.getAttribute('data-decimal')) || 0;
+                  let startTimestamp = null;
+
+                  const step = (timestamp) => {
+                      if (!startTimestamp) startTimestamp = timestamp;
+                      const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                      const currentVal = progress * target;
+                      counter.textContent = currentVal.toFixed(decimalPlaces);
+                      if (progress < 1) {
+                          window.requestAnimationFrame(step);
+                      }
+                  };
+                  window.requestAnimationFrame(step);
+              };
+
+              const observerCallbackNeural = (entries, observer) => {
+                   console.log('Impact metrics observer callback triggered.');
+                   entries.forEach(entry => {
+                       console.log('Intersection ratio:', entry.intersectionRatio);
+                       if (entry.isIntersecting && !animationNeuralStarted) {
+                           console.log('Impact metrics section is intersecting and animation not started. Adding class and starting counters...');
+                           impactMetricsSectionNeural.classList.add('is-visible');
+                           countersNeural.forEach(animateCounterNeural);
+                           animationNeuralStarted = true;
+                           // console.log('Unobserving impact metrics section.');
+                           // observer.unobserve(impactMetricsSectionNeural); // Optional: uncomment to stop observing after first trigger
+                       } else if (!entry.isIntersecting) {
+                           console.log('Impact metrics section is NOT intersecting.');
+                       } else if (animationNeuralStarted) {
+                           console.log('Impact metrics section is intersecting, but animation already started.');
+                       }
+                   });
+               };
+               const observerOptionsNeural = { root: null, threshold: 0.1 }; // Trigger when 10% is visible
+               const observerNeural = new IntersectionObserver(observerCallbackNeural, observerOptionsNeural);
+               observerNeural.observe(impactMetricsSectionNeural);
+              console.log('Impact metrics observer attached.');
+         } else {
+             console.log('Impact metrics section (#impact-metrics-neural) not found after load.');
+         }
+
+        // Re-initialize Swiper
+        if (typeof Swiper !== 'undefined' && document.querySelector('.product-swiper')) {
+            try {
+                const swiper = new Swiper('.product-swiper', {
+                    effect: 'fade',
+                    loop: true,
+                    spaceBetween: 10,
+                    slidesPerView: 1,
+                    autoplay: {
+                        delay: 4000,
+                        disableOnInteraction: false,
+                        pauseOnMouseEnter: true,
+                    },
+                    pagination: {
+                        el: '.swiper-pagination',
+                        clickable: true,
+                    },
+                    navigation: {
+                        nextEl: '.swiper-button-next',
+                        prevEl: '.swiper-button-prev',
+                    },
+                });
+                console.log('Swiper re-initialized.');
+            } catch (error) {
+                 console.error('Error re-initializing Swiper:', error);
+            }
+        } else {
+             console.log('Swiper element not found or Swiper library not loaded.');
+        }
+        
+        // Initialize Module Tabs
+        console.log('Attempting to initialize Module Tabs...');
+        const moduleTabs = document.querySelectorAll('.module-tab');
+        const moduleContents = document.querySelectorAll('.module-content');
+        
+        if (moduleTabs.length > 0 && moduleContents.length > 0) {
+            console.log(`Found ${moduleTabs.length} module tabs and ${moduleContents.length} content panels.`);
+            
+            // Apply animations to all content panels
+            moduleContents.forEach(content => {
+                content.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+            });
+            
+            // Add click handlers to tabs
+            moduleTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    console.log('Module tab clicked:', tab.getAttribute('data-target'));
+                    
+                    // Update tab styling
+                    moduleTabs.forEach(t => {
+                        t.classList.remove('active', 'border-nv-blue', 'text-nv-blue');
+                        t.classList.add('text-nv-gray-700', 'border-transparent');
+                    });
+                    
+                    tab.classList.add('active', 'border-nv-blue', 'text-nv-blue');
+                    tab.classList.remove('text-nv-gray-700', 'border-transparent');
+                    
+                    // Get target content ID
+                    const targetId = tab.getAttribute('data-target') + '-content';
+                    
+                    // First, set all content to be hidden without animation
+                    moduleContents.forEach(content => {
+                        if (content.id !== targetId) {
+                            // Hide other content panels
+                            content.classList.add('hidden');
+                            content.classList.remove('block');
+                            content.style.opacity = '0';
+                            content.style.transform = 'translateX(20px)';
+                        }
+                    });
+                    
+                    // Then show and animate the target content
+                    const targetContent = document.getElementById(targetId);
+                    if (targetContent) {
+                        // Show target panel and animate it
+                        targetContent.classList.remove('hidden');
+                        targetContent.classList.add('block');
+                        
+                        // Use setTimeout to ensure the browser processes the display change
+                        setTimeout(() => {
+                            targetContent.style.opacity = '1';
+                            targetContent.style.transform = 'translateX(0)';
+                        }, 10);
+                    } else {
+                        console.error(`Target content #${targetId} not found`);
+                    }
+                });
+            });
+            
+            // Initialize with slide-in effect for first panel
+            const firstContent = moduleContents[0];
+            if (firstContent) {
+                firstContent.style.opacity = '0';
+                firstContent.style.transform = 'translateX(20px)';
+                
+                setTimeout(() => {
+                    firstContent.style.opacity = '1';
+                    firstContent.style.transform = 'translateX(0)';
+                }, 100);
+            }
+            
+            console.log('Module tabs initialized successfully.');
+        } else {
+            console.warn('Module tabs or content not found in the DOM.');
+        }
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        const includeElements = document.querySelectorAll('[data-include]');
+        const fetchPromises = [];
+
+        includeElements.forEach(el => {
+          const filePath = el.getAttribute('data-include');
+          if (filePath) {
+            fetchPromises.push(
+              // Try fetching with an absolute path from the server root
+              fetch('/' + filePath) 
+                .then(response => {
+                  if (!response.ok) {
+                    // If the absolute path fails, add the original path to the error for clarity
+                    throw new Error(`HTTP error! status: ${response.status} for /${filePath} (original path: ${filePath})`);
+                  }
+                  return response.text();
+                })
+                .then(html => {
+                  // Insert the fetched HTML
+                  el.innerHTML = html;
+                  // Remove script tags from injected HTML to prevent potential issues
+                  // Scripts should be handled globally in index.html after load
+                  // Note: This might break scripts intended to run within partials
+                   const scripts = el.querySelectorAll('script');
+                   scripts.forEach(script => script.remove()); 
+                  console.log(`Loaded ${filePath}`);
+                })
+                .catch(error => {
+                  console.error('Error fetching partial:', filePath, error);
+                  el.innerHTML = `<p style="color: red; padding: 1rem;">Error loading ${filePath}: ${error.message}</p>`;
+                })
+            );
+          }
+        });
+
+        // Wait for all partials to be fetched and inserted
+        Promise.all(fetchPromises).then(() => {
+           initializeIncludedScripts(); // Run all initializations after content is in DOM
+        }).catch(error => {
+            console.error("Error loading one or more partials:", error);
+            // Optionally try to initialize anyway, some might have loaded
+            // initializeIncludedScripts(); 
+        });
+      });
+    </script>
+
+    <!-- Keep original scripts for reference, but their logic is now called by initializeIncludedScripts -->
+    <!-- Script for cursor gradient (Does not depend on partials) -->
+    <script>
+        const blueGradient = document.getElementById('cursor-gradient-blue');
+        const tealGradient = document.getElementById('cursor-gradient-teal');
+
+        window.addEventListener('mousemove', (e) => {
+          const xRatio = e.clientX / window.innerWidth;
+          const x = `${e.clientX}px`;
+          const y = `${e.clientY}px`;
+
+          if (blueGradient) {
+              blueGradient.style.setProperty('--x', x);
+              blueGradient.style.setProperty('--y', y);
+              blueGradient.style.opacity = 1 - xRatio;
+          }
+          if (tealGradient) {
+              tealGradient.style.setProperty('--x', x);
+              tealGradient.style.setProperty('--y', y);
+              tealGradient.style.opacity = xRatio;
+          }
+        });
+    </script>
+
+    <!-- Swiper JS (Needs to be loaded before initialization) -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+    <!-- Building Animation Scripts -->
+    <script src="/assets/js/building-animation.js"></script>
+    <script src="/assets/js/svg-building-splitter.js"></script>
+
+    <!-- NOTE: The individual script blocks below are effectively replaced by the call 
+         to initializeIncludedScripts() within the fetch logic above. 
+         Keeping them here might cause duplicate event listeners or errors. 
+         Consider removing them after confirming the fetch logic works. -->
+
+    <!-- Basic script for mobile menu toggle -->
+    <!-- <script> document.addEventListener('DOMContentLoaded', () => { /* ... original mobile menu init ... */ }); </script> -->
+    <!-- Script to trigger header slide-in animation -->
+    <!-- <script> window.addEventListener('load', () => { /* ... original header anim init ... */ }); </script> -->
+    <!-- Script for nav dropdown hover -->
+    <!-- <script> document.addEventListener('DOMContentLoaded', () => { /* ... original nav dropdown init ... */ }); </script> -->
+    <!-- Script for Impact Metrics v3 Animations -->
+    <!-- <script> document.addEventListener('DOMContentLoaded', () => { /* ... original impact metrics init ... */ }); </script> -->
+    <!-- Initialize Swiper -->
+    <!-- <script> document.addEventListener('DOMContentLoaded', () => { /* ... original swiper init ... */ }); </script> -->
+    <!-- Script for Features Submenu Hover -->
+    <!-- <script> document.addEventListener('DOMContentLoaded', () => { /* ... original features submenu init ... */ }); </script> -->
+
+</body>
+</html>

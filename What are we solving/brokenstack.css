@@ -1,0 +1,290 @@
+body {
+  font-family: 'Gilroy', Helvetica, Arial, sans-serif; /* Base font */
+  margin: 0; /* Good practice to reset default margin */
+  /* Add other global styles if needed */
+}
+
+.left-panel {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 16px; /* Rounded corners for the panel */
+  max-width: 600px; /* Adjust as needed */
+  margin: 20px auto; /* Center the panel for demo purposes */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.left-panel h1,
+.right-panel h1 {
+  /* font-size: 2.5em; */ /* Already set */
+  font-family: 'Gilroy Bold', 'Gilroy', Helvetica, Arial, sans-serif; /* Heading font */
+  font-weight: bold; /* Ensure boldness */
+  /* margin-bottom: 10px; */ /* Already set */
+  /* color: #333; / .right-panel has different color */ /* Already set */
+}
+
+.left-panel h2,
+.right-panel h2 {
+  /* font-size: 1.1em; */ /* Already set */
+  font-family: 'Gilroy', Helvetica, Arial, sans-serif; /* Subheading font (Regular) */
+  /* color: #666 / #cce0ff; */ /* Already set */
+  /* margin-bottom: 30px / 40px; */ /* Already set */
+  /* line-height: 1.6; */ /* Already set */
+}
+
+.pain-points-container ul {
+  list-style: none;
+  padding: 20px; /* Add some padding */
+  margin: 0 auto;
+  /* position: relative; */ /* Removed */
+  /* min-height: 400px; */ /* Removed */
+  max-width: 500px;
+  /* Re-add flexbox properties */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center; /* Center items */
+  gap: 20px; /* Adjust gap between items */
+}
+
+.pain-points-container li {
+  background-color: #ffffff;
+  padding: 12px 18px;
+  border-radius: 4px;
+  box-shadow: 2px 4px 8px rgba(0, 0, 0, 0.15);
+  text-align: center;
+  font-weight: 500;
+  color: #333;
+  /* position: absolute; */ /* Removed */
+  font-family: 'Gilroy', Helvetica, Arial, sans-serif;
+  /* Individual transforms will be applied via :nth-child */
+}
+
+/* Apply only rotation via :nth-child */
+.pain-points-container li:nth-child(1) { transform: rotate(-3deg); }
+.pain-points-container li:nth-child(2) { transform: rotate(2deg); }
+.pain-points-container li:nth-child(3) { transform: rotate(4deg); }
+.pain-points-container li:nth-child(4) { transform: rotate(-2deg); }
+.pain-points-container li:nth-child(5) { transform: rotate(5deg); }
+.pain-points-container li:nth-child(6) { transform: rotate(1deg); }
+.pain-points-container li:nth-child(7) { transform: rotate(-4deg); }
+.pain-points-container li:nth-child(8) { transform: rotate(3deg); }
+.pain-points-container li:nth-child(9) { transform: rotate(-1deg); }
+.pain-points-container li:nth-child(10) { transform: rotate(4deg); }
+.pain-points-container li:nth-child(11) { transform: rotate(2deg); }
+.pain-points-container li:nth-child(12) { transform: rotate(-3deg); }
+/* Removed top, left, z-index from these rules */
+
+/* Container for both panels */
+.main-container {
+  display: flex;
+  /* justify-content: space-around; */ /* Removed */
+  /* align-items: flex-start; */ /* Removed align-items, let them stretch or default */
+  padding: 20px;
+  max-width: 1200px; /* Adjusted max-width for overall container */
+  margin: 40px auto; /* Center the container and add top/bottom margin */
+  gap: 40px; /* Increased gap between panels */
+}
+
+.left-panel {
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  /* flex-basis: 48%; */ /* Removed */
+  flex: 1; /* Allow panel to grow and take equal space */
+  /* margin: 0; */ /* Ensure no conflicting margin */
+}
+
+/* Right Panel Styles */
+.right-panel {
+  background-color: #001a2e;
+  color: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  flex: 1;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  /* display: flex; */ /* Temporarily removed for debugging */
+  /* flex-direction: column; */ /* Temporarily removed for debugging */
+  /* align-items: center; */ /* Temporarily removed for debugging */
+  position: relative;
+  overflow: hidden;
+}
+
+.right-panel h1 {
+  font-size: 2.5em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.right-panel h2 {
+  font-size: 1.1em;
+  color: #cce0ff; /* Lighter color for subheading */
+  margin-bottom: 40px; /* More space before pillar */
+  line-height: 1.6;
+}
+
+/* CTA Button and Text Container */
+.cta-container {
+  display: flex;
+  align-items: center; /* Vertically align button and text */
+  justify-content: center; /* Center horizontally (within the panel) */
+  gap: 15px; /* Space between button and text */
+  margin-bottom: 40px; /* Space below the CTA section */
+}
+
+.get-started-btn {
+  display: inline-block; /* Allow padding and margin */
+  background-color: #ffffff;
+  color: #333; /* Dark text */
+  padding: 12px 25px;
+  border-radius: 25px; /* Highly rounded corners */
+  text-decoration: none;
+  font-family: 'Gilroy Bold', 'Gilroy', Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 1em;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.get-started-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.converge-text {
+  font-family: 'Gilroy', Helvetica, Arial, sans-serif;
+  font-size: 0.8em;
+  color: #a0c8ff; /* Lighter blue text */
+  line-height: 1.4;
+  text-align: left;
+  margin: 0; /* Reset default margin */
+}
+
+/* Background Icon Grid */
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr); /* 5 equal columns */
+  gap: 15px; /* Gap between icons */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Center the grid */
+  width: 80%; /* Adjust width as needed */
+  max-width: 400px; /* Max size */
+  z-index: 0; /* Behind pillar layout (pillar needs z-index > 0) */
+  opacity: 0.15; /* Make icons very faint */
+}
+
+.grid-icon {
+  aspect-ratio: 1 / 1; /* Make icons square */
+  background-color: rgba(255, 255, 255, 0.1); /* Faint background */
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em; /* Adjust placeholder size */
+  color: #fff;
+}
+
+/* Pillar Layout Styles - Keep container size */
+.pillar-layout {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 60px auto;
+  z-index: 1;
+  border: 5px solid lime; /* Thick bright border */
+  /* background-color: rgba(0, 255, 0, 0.1); */ /* Optional faint background */
+}
+
+.pillar-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Standard centering */
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  z-index: 10;
+  box-shadow: 0 0 15px rgba(0, 119, 255, 0.7), /* Medium Blue glow */
+              0 0 25px rgba(65, 105, 225, 0.5);  /* Royal Blue outer glow */
+}
+
+.logo-image {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
+
+/* Puzzle Piece Base Styles - Simplified for Text */
+.puzzle-piece {
+ position: absolute;
+ display: block !important; /* Force display for debug */
+ padding: 5px 10px;
+ color: #000000; /* Black text for contrast */
+ font-family: 'Gilroy Bold', 'Gilroy', Helvetica, Arial, sans-serif;
+ font-weight: bold;
+ font-size: 1.1em;
+ text-align: center;
+ z-index: 15; /* High z-index for debug */
+ border-radius: 6px;
+ background-color: yellow; /* Bright background */
+ border: 2px solid red; /* Bright border */
+}
+
+/* Remove Specific Puzzle Piece Styles */
+/*
+.puzzle-top-left { ... }
+.puzzle-top-right { ... }
+.puzzle-bottom-left { ... }
+.puzzle-bottom-right { ... }
+*/
+
+/* Circular Positioning for Text Elements */
+.puzzle-top-right { /* Engage (Top) */
+  top: 15px; /* Adjust distance from center */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.puzzle-bottom-left { /* Scale (Bottom) */
+  bottom: 15px; /* Adjust distance from center */
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.puzzle-top-left { /* Automate (Left) */
+  left: 15px; /* Adjust distance from center */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.puzzle-bottom-right { /* Close (Right) */
+  right: 15px; /* Adjust distance from center */
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+/* --- Remove Connectors --- */
+
+/* Remove Base styles for puzzle connectors */
+/*
+.puzzle-piece::before,
+.puzzle-piece::after { ... }
+*/
+
+/* Remove Specific Connector Positions */
+/*
+.puzzle-top-left::before { ... }
+.puzzle-top-left::after { ... }
+.puzzle-top-right::before { ... }
+.puzzle-top-right::after { ... }
+.puzzle-bottom-left::before { ... }
+.puzzle-bottom-left::after { ... }
+.puzzle-bottom-right::before { ... }
+.puzzle-bottom-right::after { ... }
+*/ 

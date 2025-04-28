@@ -1,0 +1,321 @@
+/* Add paths to your Gilroy font files here */
+@font-face {
+    font-family: 'Gilroy';
+    src: url('path/to/gilroy-regular.woff2') format('woff2'), /* Replace with actual path */
+         url('path/to/gilroy-regular.woff') format('woff');  /* Replace with actual path */
+    font-weight: 400; /* Regular */
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Gilroy';
+    src: url('path/to/gilroy-bold.woff2') format('woff2'),   /* Replace with actual path */
+         url('path/to/gilroy-bold.woff') format('woff');    /* Replace with actual path */
+    font-weight: 700; /* Bold */
+    font-style: normal;
+}
+
+body {
+    font-family: 'Gilroy', sans-serif; /* Use Gilroy as the primary font */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    /* background-color: #f8f9fa; */ /* Light background */
+    background-color: #0a192f; /* Dark blue background */
+    margin: 0;
+}
+
+.results-section {
+    text-align: center;
+    padding: 40px 20px;
+}
+
+.section-title {
+    font-size: 2em;
+    /* color: #333; */
+    color: #ccd6f6; /* Light text color */
+    margin-bottom: 50px;
+    font-weight: 700; /* Use Gilroy Bold */
+}
+
+/* Style "Results" (first strong tag) */
+.section-title strong:first-of-type {
+    /* color: #4decf0; */ /* Replaced by gradient */
+    /* Reduce glow */
+    text-shadow: 
+        0 0 4px rgba(77, 236, 240, 0.6), /* Cyan glow - Reduced */
+        0 0 2px rgba(255, 255, 255, 0.4); /* Subtle inner white - Reduced */
+    /* Add gradient */
+    background: linear-gradient(90deg, #4decf0, #17a2b8); /* Cyan gradient */
+    -webkit-background-clip: text; /* Safari */
+    background-clip: text;
+    color: transparent; /* Make original color transparent */
+}
+
+/* Style "Data" (last strong tag) */
+.section-title strong:last-of-type {
+    /* color: #28a745; */ /* Replaced by gradient */
+    /* Reduce glow */
+    text-shadow:
+        0 0 4px rgba(40, 167, 69, 0.6), /* Green glow - Reduced */
+        0 0 2px rgba(255, 255, 255, 0.4); /* Subtle inner white - Reduced */
+    /* Add gradient */
+    background: linear-gradient(90deg, #28a745, #55dd77); /* Green gradient */
+    -webkit-background-clip: text; /* Safari */
+    background-clip: text;
+    color: transparent; /* Make original color transparent */
+}
+
+.central-container {
+    position: relative; /* Needed for absolute positioning of children */
+    width: 650px; /* Increased width */
+    height: 550px; /* Increased height */
+    margin: 50px auto; /* Adjusted margin for more space */
+    display: flex; /* Center the logo */
+    justify-content: center;
+    align-items: center;
+}
+
+.central-logo {
+    width: 100px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    position: relative; /* Needed for pseudo-element positioning (though ::before removed) */
+    z-index: 1; /* Ensure logo is above the glow */
+    /* border-radius: 50%; */ 
+    /* Removed filter: drop-shadow */
+    /* Apply stronger filter glow with updated colors */
+    filter: 
+        drop-shadow(0 0 8px rgba(125, 249, 255, 0.9)) /* Stronger primary electric blue */
+        drop-shadow(0 0 15px rgba(125, 249, 255, 0.6)) /* Wider primary electric blue */
+        drop-shadow(0 0 3px rgba(117, 185, 160, 0.5)); /* Subtle inner secondary teal/green */
+}
+
+/* Removed .central-logo::before rule */
+/*
+.central-logo::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100%;
+    border-radius: 50%; 
+    box-shadow: 
+        inset 0 0 5px rgba(255, 255, 255, 0.6),
+        0 0 20px 8px rgba(40, 167, 69, 0.8); 
+    z-index: -1; 
+}
+*/
+
+.stat-box {
+    position: absolute;
+    /* background-color: transparent; */ /* Replaced */
+    background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    padding: 15px; /* Adjusted padding */
+    border-radius: 8px;
+    width: 180px; /* Adjust as needed */
+    text-align: center;
+    z-index: 2; /* Ensure boxes are above lines */
+}
+
+/* Repositioning the stat boxes for better spacing */
+.stat-box-tc { 
+    /* top: -10px; */ /* Old position */
+    top: 5px; /* Adjusted to be inside container */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.stat-box-tl {
+    top: 80px; /* Adjusted */
+    left: 0;
+}
+
+.stat-box-tr {
+    top: 80px; /* Adjusted */
+    right: 0;
+}
+
+.stat-box-bl {
+    bottom: 0;
+    left: 50px; /* Adjusted */
+}
+
+.stat-box-br {
+    bottom: 0;
+    right: 50px; /* Adjusted */
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5em;
+    font-weight: 700; /* Use Gilroy Bold (already specified, but ensures consistency) */
+    margin-bottom: 5px;
+    color: #17a2b8; /* Teal/Cyan color */
+    /* Keep these bright */
+    /* Add glow effect */
+    text-shadow:
+        0 0 5px rgba(23, 162, 184, 0.5), /* Teal/Cyan glow */
+        0 0 10px rgba(23, 162, 184, 0.3);
+}
+
+.stat-box-tr .stat-number,
+.stat-box-bl .stat-number {
+     color: #28a745; /* Green color */
+     /* Keep these bright */
+     /* Add glow effect */
+     text-shadow:
+        0 0 5px rgba(40, 167, 69, 0.5), /* Green glow */
+        0 0 10px rgba(40, 167, 69, 0.3);
+}
+
+/* Explicitly set BR to green and TC to blue for clarity */
+.stat-box-br .stat-number {
+    color: #28a745; /* Green color */
+}
+.stat-box-tc .stat-number {
+    color: #17a2b8; /* Teal/Cyan color */
+}
+
+.stat-description {
+    font-size: 0.9em;
+    /* color: #6c757d; */ /* Grey color */
+    color: #8892b0; /* Lighter grey text */
+    margin: 0;
+    /* Inherits Gilroy Regular from body */
+}
+
+/* Basic styles for connecting lines (using pseudo-elements) - Placeholder */
+/* More complex positioning needed for exact match */
+.central-container::before, 
+.central-container::after {
+    content: '';
+    position: absolute;
+    background-color: #abd1c6; /* Light teal/green line color */
+    z-index: -1; /* Place lines behind boxes */
+}
+
+/* Removed old pseudo-element rule for TL box */
+/*
+.stat-box-tl::after {
+    content: '';
+    position: absolute;
+    height: 2px; 
+    background-color: #abd1c6;
+    width: 100px; 
+    top: 50%; 
+    left: 100%; 
+    transform-origin: left center;
+    transform: rotate(45deg) translateX(10px); 
+} 
+*/
+
+/* Add more ::after rules for other boxes or use a different technique (SVG) */
+
+/* Styling for the SVG lines */
+.connecting-lines {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1; /* Behind boxes (z-index 2) but above background */
+    pointer-events: none; /* Allow clicking through the SVG */
+}
+
+/* .connecting-lines polyline { */ /* Changed selector */
+.connecting-lines path {
+    fill: none;
+    /* stroke: #abd1c6; */ /* Old color */
+    stroke: #4decf0; /* Brighter cyan for glow */
+    stroke-width: 2px;
+    stroke-linecap: round; /* Optional: make line ends rounded */
+}
+
+/* Renamed selector and kept cyan fill for static endpoints */
+.endpoint-circle {
+    fill: #4decf0; /* Match line color */
+    stroke: none;
+}
+
+/* New rule specifically for the moving green pulse */
+.animated-pulse {
+    fill: #28a745; /* Force green color */
+    stroke: none; 
+}
+
+.stat-box {
+    position: absolute;
+    /* background-color: transparent; */ /* Replaced */
+    background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent white */
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle border */
+    padding: 15px; /* Adjusted padding */
+    border-radius: 8px;
+    width: 180px; /* Adjust as needed */
+    text-align: center;
+    z-index: 2; /* Ensure boxes are above lines */
+}
+
+/* Repositioning the stat boxes for better spacing */
+.stat-box-tc { 
+    /* top: -10px; */ /* Old position */
+    top: 5px; /* Adjusted to be inside container */
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.stat-box-tl {
+    top: 80px; /* Adjusted */
+    left: 0;
+}
+
+.stat-box-tr {
+    top: 80px; /* Adjusted */
+    right: 0;
+}
+
+.stat-box-bl {
+    bottom: 0;
+    left: 50px; /* Adjusted */
+}
+
+.stat-box-br {
+    bottom: 0;
+    right: 50px; /* Adjusted */
+}
+
+.stat-number {
+    display: block;
+    font-size: 2.5em;
+    font-weight: 700; /* Use Gilroy Bold */
+    margin-bottom: 5px;
+    /* Example colors - match the reference image */
+    color: #17a2b8; /* Teal/Cyan color */
+    /* Keep these bright */
+}
+
+.stat-box-tr .stat-number,
+.stat-box-bl .stat-number {
+     color: #28a745; /* Green color */
+     /* Keep these bright */
+}
+
+/* Explicitly set BR to green and TC to blue for clarity */
+.stat-box-br .stat-number {
+    color: #28a745; /* Green color */
+}
+.stat-box-tc .stat-number {
+    color: #17a2b8; /* Teal/Cyan color */
+}
+
+.stat-description {
+    font-size: 0.9em;
+    /* color: #6c757d; */ /* Grey color */
+    color: #8892b0; /* Lighter grey text */
+    margin: 0;
+    /* Inherits Gilroy Regular from body */
+} 
