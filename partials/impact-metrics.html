@@ -144,7 +144,7 @@
              </div>
 
             <div class="stat-box stat-box-tr z-30">
-                <span class="stat-number">85%</span>
+                <span class="stat-number">90%</span>
                 <p class="stat-description">Workflows Automated</p>
             </div>
 
@@ -154,8 +154,8 @@
              </div>
 
             <div class="stat-box stat-box-br z-30">
-                <span class="stat-number">6+</span>
-                <p class="stat-description">Tools Replaced</p>
+                <span class="stat-number">80%</span>
+                <p class="stat-description">Customer Engagement Increament</p>
              </div>
         </div>
     </div>
@@ -340,7 +340,8 @@
 }
 
 .stat-number {
-    animation: countUp 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards;
+    /* The line below is removed to disable the CSS animation */
+    /* animation: countUp 1.5s cubic-bezier(0.215, 0.61, 0.355, 1) forwards; */
 }
 
 /* Animated underline for heading */
@@ -374,6 +375,40 @@
 
 <!-- JavaScript for animations -->
 <script>
+// Function to animate count-up effect
+function animateCountUp(element, targetValue, prefix = '', suffix = '', duration = 1500) {
+    const startValue = 0;
+    let startTime = null;
+
+    // Extract the numerical part from the targetValue string
+    const targetNumber = parseFloat(targetValue.replace(/[^0-9.]/g, ''));
+    if (isNaN(targetNumber)) {
+        console.error("Invalid target number for count-up:", targetValue);
+        element.textContent = prefix + targetValue + suffix; // Display original if parsing fails
+        return;
+    }
+
+    // Determine the number of decimal places
+    const decimalPlaces = (String(targetValue).split('.')[1] || '').length; // Ensure targetValue is string
+
+    function step(timestamp) {
+        if (!startTime) startTime = timestamp;
+        const progress = Math.min((timestamp - startTime) / duration, 1);
+        const currentNumber = startValue + progress * (targetNumber - startValue);
+
+        // Format the number with the correct decimal places and add prefix/suffix
+        element.textContent = prefix + currentNumber.toFixed(decimalPlaces) + suffix;
+
+        if (progress < 1) {
+            requestAnimationFrame(step);
+        } else {
+             // Ensure the final value is exactly the target, handling potential floating point inaccuracies
+             element.textContent = prefix + targetNumber.toFixed(decimalPlaces) + suffix;
+        }
+    }
+    requestAnimationFrame(step);
+}
+
 // This script will add animation to the neural network visualization
 document.addEventListener('DOMContentLoaded', function() {
     // Add a small delay to ensure everything is loaded
@@ -387,21 +422,94 @@ document.addEventListener('DOMContentLoaded', function() {
                 logo.style.transform = 'scale(1)';
             }, 500);
         }
-        
-        // Then animate the stat boxes sequentially
+
+        // Then animate the stat boxes sequentially and trigger count-up
         const statBoxes = document.querySelectorAll('.stat-box');
         statBoxes.forEach((box, index) => {
+            const statNumberElement = box.querySelector('.stat-number');
+            if (!statNumberElement) return;
+
+            // Store original content structure
+            const originalNodes = Array.from(statNumberElement.childNodes).map(node => node.cloneNode(true));
+            statNumberElement.innerHTML = ''; // Clear content before box animation
+
+            // Extract prefix, number, and suffix from the original structure
+            let prefix = '';
+            let suffix = '';
+            let targetValueStr = ''; // The string representation of the number like "1.5" or "5"
+            let targetNumberElement = null; // The element where the number should be animated (might be statNumberElement or a child span)
+
+            const prefixElement = originalNodes.find(node => node.nodeType === Node.ELEMENT_NODE && node.classList && node.classList.contains('prefix'));
+            const numberSpanElement = originalNodes.find(node => node.nodeType === Node.ELEMENT_NODE && node.tagName === 'SPAN' && !(node.classList && node.classList.contains('prefix')));
+
+            if (prefixElement) {
+                prefix = prefixElement.textContent + ' ';
+                // If there's a specific span for the number after the prefix
+                if (numberSpanElement) {
+                    targetValueStr = numberSpanElement.textContent;
+                    targetNumberElement = numberSpanElement; // Animate inside this span
+                } else {
+                     // Fallback: find text node after prefix (less ideal)
+                     const textNode = originalNodes.find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0);
+                     targetValueStr = textNode ? textNode.textContent.trim() : '';
+                     targetNumberElement = statNumberElement; // Animate directly in parent
+                }
+            } else {
+                // If no prefix span, the first significant text content is the target
+                const textNode = originalNodes.find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0);
+                targetValueStr = textNode ? textNode.textContent.trim() : (numberSpanElement ? numberSpanElement.textContent : '');
+                targetNumberElement = numberSpanElement || statNumberElement; // Animate in span if exists, else parent
+            }
+
+            // Extract suffix (like X or %) from the target string
+            const suffixMatch = targetValueStr.match(/([^0-9.]+)/);
+            if (suffixMatch) {
+                suffix = suffixMatch[0];
+                targetValueStr = targetValueStr.replace(suffix, ''); // Keep only the number part
+            }
+
+            // --- Box reveal animation ---
+            const boxDelay = index * 200 + 500; // Start after logo animation + stagger
             setTimeout(() => {
                 box.style.opacity = '0';
                 box.style.transform = 'translateY(20px)';
                 box.style.transition = 'opacity 0.5s ease-out, transform 0.5s ease-out';
-                
-                setTimeout(() => {
+
+                setTimeout(() => { // Start fade-in slightly after setting initial styles
                     box.style.opacity = '1';
                     box.style.transform = 'translateY(0)';
+
+                    // --- Trigger count-up AFTER box is revealed ---
+                    // Reconstruct the stat number element's structure before animation
+                     statNumberElement.innerHTML = ''; // Clear again
+                     let elementForAnimation = statNumberElement; // Default to parent
+
+                     if (prefixElement) {
+                         statNumberElement.appendChild(prefixElement.cloneNode(true));
+                         statNumberElement.append(' '); // Add space
+                     }
+
+                     if (numberSpanElement) {
+                         const clonedNumberSpan = numberSpanElement.cloneNode(false); // Clone empty span
+                         statNumberElement.appendChild(clonedNumberSpan);
+                         elementForAnimation = clonedNumberSpan; // Target the inner span
+                     } else if (!prefixElement && targetNumberElement === statNumberElement) {
+                         // No prefix, no specific span, animate directly in statNumberElement
+                         elementForAnimation = statNumberElement;
+                     } else if (prefixElement && targetNumberElement === statNumberElement) {
+                         // Prefix exists, but number was just text content, create a span for it
+                         const dynamicSpan = document.createElement('span');
+                         statNumberElement.appendChild(dynamicSpan);
+                         elementForAnimation = dynamicSpan;
+                     }
+                      // If there was a suffix originally NOT in a span, it will be added by animateCountUp
+
+                    // Animate the number in the designated element
+                     animateCountUp(elementForAnimation, targetValueStr, '', suffix, 1500); // Pass only suffix here
+
                 }, 100);
-            }, index * 200);
+            }, boxDelay);
         });
-    }, 300);
+    }, 300); // Overall initial delay
 });
 </script> 

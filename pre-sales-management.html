@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pre-Sales Management - Nexprop.ai</title>
+    <!-- Link to your compiled Tailwind CSS file -->
+    <link href="assets/css/style.css" rel="stylesheet">
+    <!-- Tailwind CDN for development (remove in production if using compiled CSS) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Add your custom Tailwind theme configuration here
+        // This should match the config from your project setup
+        tailwind.config = {
+            theme: {
+                extend: {
+                  colors: {
+                    // Primary and Secondary colors
+                    'nv-blue': '#2D4F9B',
+                    'nv-teal': '#75B9A0',
+
+                    // Grays / Neutrals
+                    'nv-gray-50': '#F6F6F6',
+                    'nv-gray-100': '#F2F3F8',
+                    'nv-gray-200': '#dedfee', // Added missing gray
+                    'nv-gray-700': '#4A4A4A', // Assuming a mid-dark gray for text
+
+                    // Dark theme colors
+                    'nv-dark-700': '#191e33', // Added missing dark color for footer
+
+                    // Additional colors (add others if needed)
+                    'nv-success': '#28a745',
+                    'nv-error': '#dc3545'
+                  },
+                  fontFamily: {
+                    'gilroy': ['Gilroy', 'sans-serif'], // Ensure Gilroy font is loaded
+                    'sans': ['Gilroy', 'ui-sans-serif', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+                  },
+                   boxShadow: {
+                     'md': '0 4px 6px rgba(0,0,0,0.1)',
+                     'teal-md': '0 4px 6px rgba(117, 185, 160, 0.2)', // Example teal shadow
+                     'teal-glow': '0 0 15px rgba(117, 185, 160, 0.5)', // Example teal glow
+                    },
+                    borderRadius: {
+                      'xl': '12px',
+                    }
+                }
+             }
+        }
+    </script>
+    <!-- HTMX Script -->
+    <script src="https://unpkg.com/htmx.org@1.9.10" integrity="sha384-D1Kt99CQMDuVetoL1lrYwg5t+9QdHe7NLX/SoJYkXDFfX37iInKRy5x+WgfTDHL0" crossorigin="anonymous"></script>
+    <!-- Link to custom fonts if necessary (e.g., Gilroy) -->
+    <!-- <link href="https://example.com/path/to/gilroy.css" rel="stylesheet"> -->
+    <style>
+        /* Add any page-specific styles here if needed */
+        body {
+            font-family: 'Gilroy', sans-serif; /* Apply Gilroy globally */
+        }
+    </style>
+</head>
+<body class="bg-nv-gray-50 text-nv-gray-700">
+
+    <!-- Start Navbar -->
+    <!-- CTA Banner -->
+    <div id="cta-banner" class="relative overflow-hidden bg-nv-blue text-white">
+        <!-- Glow Animation -->
+        <div class="glow-effect absolute bottom-0 left-0 w-full h-1"></div>
+
+        <!-- Banner Content -->
+        <div class="relative z-10 max-w-7xl mx-auto py-2 px-3 sm:px-6 lg:px-8">
+            <div class="sm:text-center">
+                <p class="font-medium">
+                    <span class="md:hidden">Close deals 3X faster. Want in?</span>
+                    <span class="hidden md:inline">Close deals 3X faster. Want in?</span>
+                    <span class="block sm:ml-2 sm:inline-block">
+                        <a href="#" class="inline-block px-3 py-1 rounded-lg bg-nv-teal text-white hover:bg-white hover:text-nv-blue font-semibold text-sm shadow-md transition duration-150 ease-in-out">
+                            Discover Nexprop.ai &rarr;
+                        </a>
+                    </span>
+                </p>
+            </div>
+        </div>
+
+        <!-- Close Button -->
+        <button onclick="document.getElementById('cta-banner').style.display='none'"
+                class="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-md hover:bg-white/20">
+            <svg class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+
+    <style>
+    .glow-effect {
+        background: linear-gradient(
+            90deg,
+            transparent 0%,
+            #75B9A0 50%,
+            transparent 100%
+        );
+        width: 100px;
+        animation: moveGlow 3s linear forwards; /* Changed from infinite to forwards */
+    }
+
+    @keyframes moveGlow {
+        0% {
+            transform: translateX(-100%);
+        }
+        100% {
+            transform: translateX(100vw);
+        }
+    }
+    </style>
+
+    <script>
+    // Only run animation once per session
+    document.addEventListener('DOMContentLoaded', function() {
+        // Check if animation has already played
+        if (sessionStorage.getItem('glowAnimationPlayed')) {
+            // Hide the glow effect
+            const glowEffect = document.querySelector('.glow-effect');
+            if(glowEffect) glowEffect.style.display = 'none';
+        } else {
+            // Mark animation as played
+            sessionStorage.setItem('glowAnimationPlayed', 'true');
+        }
+
+        // CTA Banner close logic (copied from navbar partial)
+        const ctaBanner = document.getElementById('cta-banner');
+        if (ctaBanner) {
+            const closeButton = ctaBanner.querySelector('button');
+            if (closeButton) {
+                 closeButton.addEventListener('click', function() {
+                    ctaBanner.style.transition = 'all 0.5s ease-out';
+                    ctaBanner.style.marginTop = `-${ctaBanner.offsetHeight}px`;
+                    ctaBanner.style.opacity = '0';
+
+                    setTimeout(() => {
+                        ctaBanner.style.display = 'none';
+                    }, 500);
+                 });
+            }
+        }
+
+        // Dropdown & Mobile Menu Logic (copied from navbar partial)
+        const mainHeader = document.getElementById('main-header'); // Needed for dropdowns/mobile menu
+
+        // Mobile Menu Toggle Logic
+        if (mainHeader) {
+            const mobileMenuButton = mainHeader.querySelector('[aria-controls=\"mobile-menu\"]');
+            const mobileMenu = document.getElementById('mobile-menu');
+            if (mobileMenuButton && mobileMenu) {
+                const openIcon = mobileMenuButton.querySelector('svg.block');
+                const closeIcon = mobileMenuButton.querySelector('svg.hidden');
+
+                if (openIcon && closeIcon) {
+                    mobileMenuButton.addEventListener('click', () => {
+                        const expanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                        mobileMenuButton.setAttribute('aria-expanded', !expanded);
+                        mobileMenu.style.display = expanded ? 'none' : 'block';
+                        openIcon.style.display = expanded ? 'block' : 'none';
+                        closeIcon.style.display = expanded ? 'none' : 'block';
+                    });
+                } else {
+                    console.error("Mobile menu icons not found.");
+                }
+            } else {
+                 if (!mobileMenuButton) console.error("Mobile menu button not found.");
+                 if (!mobileMenu) console.error("Mobile menu element (#mobile-menu) not found.");
+            }
+        } else {
+             console.error("Main header element (#main-header) not found for menu interactions.");
+        }
+
+         // Dropdown Logic
+         const dropdownTriggers = document.querySelectorAll('[data-dropdown-trigger]');
+         dropdownTriggers.forEach(trigger => {
+             const content = trigger.querySelector('[data-dropdown-content]');
+             let enterTimeout, leaveTimeout;
+
+             trigger.addEventListener('mouseenter', () => {
+                 clearTimeout(leaveTimeout);
+                 enterTimeout = setTimeout(() => {
+                     if (content) {
+                         content.style.display = 'block';
+                         content.style.visibility = 'visible';
+                         requestAnimationFrame(() => {
+                            content.style.opacity = '1';
+                            content.style.transform = 'translateY(0) translateX(-50%)';
+                         });
+                     }
+                 }, 50);
+             });
+
+             trigger.addEventListener('mouseleave', () => {
+                 clearTimeout(enterTimeout);
+                 leaveTimeout = setTimeout(() => {
+                     if (content) {
+                         content.style.opacity = '0';
+                         content.style.transform = 'translateY(-10px) translateX(-50%)';
+                         setTimeout(() => {
+                             content.style.display = 'none';
+                             content.style.visibility = 'hidden';
+                         }, 150);
+                     }
+                 }, 100);
+             });
+
+             if (content) {
+                 content.addEventListener('mouseenter', () => clearTimeout(leaveTimeout));
+                 content.addEventListener('mouseleave', () => {
+                     leaveTimeout = setTimeout(() => {
+                          content.style.opacity = '0';
+                         content.style.transform = 'translateY(-10px) translateX(-50%)';
+                         setTimeout(() => {
+                             content.style.display = 'none';
+                             content.style.visibility = 'hidden';
+                         }, 150);
+                     }, 100);
+                 });
+             }
+         });
+    });
+    </script>
+
+    <!-- Header -->
+    <header id="main-header" class="sticky top-0 z-50 transform transition-all duration-1000 ease-out bg-white shadow-md"> <!-- Added bg and shadow here -->
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+
+                <!-- Logo Section (Left) -->
+                <div class="flex-shrink-0">
+                    <div class="flex items-center p-2 rounded-xl border border-nv-gray-100 bg-white shadow-md">
+                        <a href="/" class="flex items-center">
+                             <img class="h-8 w-auto" src="assets/images/nexprop_horizontal.png" alt="Nexprop.ai logo">
+                        </a>
+                        <!-- Removed text logo, divider and tagline -->
+                    </div>
+                </div>
+
+                <!-- Main Navigation (Center) -->
+                <nav class="relative hidden md:flex items-center space-x-1 p-2 rounded-xl border border-nv-gray-100 bg-white shadow-md justify-center">
+                    <!-- Products Wrapper -->
+                    <div class="relative" data-dropdown-trigger>
+                        <!-- Products Link -->
+                        <a href="#" class="flex items-center px-3 py-1 text-sm font-medium text-nv-gray-700 hover:text-nv-blue transition-colors duration-150 ease-in-out">
+                            Products
+                            <svg class="ml-1 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                         <!-- Products Dropdown Panel -->
+                        <div data-dropdown-content class="fixed top-16 left-1/2 transform -translate-x-1/2 mt-0 w-[960px] hidden origin-top rounded-xl bg-white shadow-lg focus:outline-none z-50 opacity-0 -translate-y-2 transition-all duration-150 ease-out pt-3">
+                             <div class="grid grid-cols-4 gap-6 p-6" role="none">
+                                <!-- NexCore -->
+                                <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                    <div class="flex items-center mb-2">
+                                        <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 7.5l-9-5.25L3 7.5m18 0l-9 5.25m9-5.25v9l-9 5.25M3 7.5l9 5.25M3 7.5v9l9 5.25m0-9.75l-9-5.25M12 7.5v9.75" /></svg>
+                                        <p class="text-lg font-semibold text-nv-gray-700">NexCore</p>
+                                    </div>
+                                    <p class="text-base text-nv-gray-700">AI-powered CRM for end-to-end lifecycle management</p>
+                                </a>
+                                <!-- NexEngage -->
+                                <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                    <div class="flex items-center mb-2">
+                                        <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.006 3 11.55c0 2.58.94 4.95 2.515 6.791L3 21l5.053-1.516A8.988 8.988 0 0012 20.25z" /></svg>
+                                        <p class="text-lg font-semibold text-nv-gray-700">NexEngage</p>
+                                    </div>
+                                    <p class="text-base text-nv-gray-700">Omnichannel AI Intelligent engagement Platform that knows who to follow up with - before you even ask</p>
+                                </a>
+                                <!-- NexVision -->
+                                <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                     <div class="flex items-center mb-2">
+                                        <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+                                        <p class="text-lg font-semibold text-nv-gray-700">NexVision</p>
+                                    </div>
+                                    <p class="text-base text-nv-gray-700"> 360° virtual property tours with live interaction </p>
+                                </a>
+                                <!-- NexGo -->
+                                 <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                     <div class="flex items-center mb-2">
+                                        <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg>
+                                        <p class="text-lg font-semibold text-nv-gray-700">NexGo</p>
+                                    </div>
+                                    <p class="text-base text-nv-gray-700">Mobile-first CRM app for on-the-go sales teams</p>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Products Wrapper -->
+
+                    <!-- Features Wrapper -->
+                    <div class="relative" data-dropdown-trigger>
+                        <a href="#" class="flex items-center px-3 py-1 text-sm font-medium text-nv-gray-700 hover:text-nv-blue transition-colors duration-150 ease-in-out">
+                            Features
+                            <svg class="ml-1 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                            </svg>
+                        </a>
+                        <!-- Invisible hover bridge -->
+                        <div class="absolute h-4 w-full bottom-0 translate-y-full"></div>
+                        <!-- Features Dropdown Panel - Updated -->
+                        <div data-dropdown-content
+                             class="fixed top-16 left-1/2 transform -translate-x-1/2 mt-0 w-[1152px] hidden origin-top rounded-xl bg-white shadow-lg focus:outline-none z-50 opacity-0 -translate-y-2 transition-all duration-150 ease-out p-6 pt-8"> <!-- Increased width -->
+                            <div class="grid grid-cols-5 gap-x-6 gap-y-4">
+                                <!-- Pre-Sales Management Column -->
+                                <div>
+                                    <!-- Changed h3 to a link -->
+                                    <a href="/pre-sales-management.html" class="block text-sm font-bold text-nv-gray-700 mb-4 tracking-wider uppercase hover:text-nv-blue transition-colors duration-150 ease-in-out">Pre-Sales Management</a>
+                                    <ul class="space-y-1">
+                                        <!-- New Pre-Sales Features -->
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m5.231 13.481L15 17.25m-4.5-15H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg><span class="text-sm font-medium text-nv-gray-700">AI Agents for Lead Management</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg><span class="text-sm font-medium text-nv-gray-700">AI Agents for Property Management</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" /></svg><span class="text-sm font-medium text-nv-gray-700">AI Insights and Analytics</span></a></li>
+                                        <!-- End New Features -->
+                                    </ul>
+                                </div>
+
+                                <!-- Post-Sales Management Column -->
+                                <div>
+                                    <h3 class="text-sm font-bold text-nv-gray-700 mb-4 tracking-wider uppercase">Post-Sales Management</h3> <!-- Adjusted size, weight, added uppercase -->
+                                    <ul class="space-y-1">
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg><span class="text-sm font-medium text-nv-gray-700">Booking Management</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" /></svg><span class="text-sm font-medium text-nv-gray-700">Document Management</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 8.25h19.5M2.25 9h19.5m-16.5 5.25h6m-6 2.25h6m3-5.25h6m-6 2.25h6m3-5.25h6m-6 2.25h6M3 18.75h18" /></svg><span class="text-sm font-medium text-nv-gray-700">Payment Tracking</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0z\" /></svg><span class="text-sm font-medium text-nv-gray-700">Post Sale Engagement</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 14.25v2.25m3-4.5v4.5m3-6.75v6.75m3-9v9M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" /></svg><span class="text-sm font-medium text-nv-gray-700">Payment Dashboards</span></a></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Channel Partner Management Column -->
+                                <div>
+                                    <h3 class="text-sm font-bold text-nv-gray-700 mb-4 tracking-wider uppercase">Channel Partner Management</h3> <!-- Updated text, adjusted size, weight, added uppercase -->
+                                    <ul class="space-y-1">
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19 7.5v3m0 0v3m0-3h3m-3 0h-3m-2.25-4.125a3.375 3.375 0 11-6.75 0 3.375 3.375 0 016.75 0zM4 19.235v-.11a6.375 6.375 0 0112.75 0v.109A12.318 12.318 0 0110.374 21c-2.331 0-4.512-.645-6.374-1.766z" /></svg><span class="text-sm font-medium text-nv-gray-700">Onboarding Automation</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z\" /></svg><span class="text-sm font-medium text-nv-gray-700">Commission Management</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" /></svg><span class="text-sm font-medium text-nv-gray-700">Referral Management</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.19 8.688a4.5 4.5 0 011.242 7.244l-4.5 4.5a4.5 4.5 0 01-6.364-6.364l1.757-1.757m13.35-.622l1.757-1.757a4.5 4.5 0 00-6.364-6.364l-4.5 4.5a4.5 4.5 0 001.242 7.244\" /></svg><span class="text-sm font-medium text-nv-gray-700">Affiliate Tracking</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg><span class="text-sm font-medium text-nv-gray-700">Role-Based Access</span></a></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Omnichannel Communication Column -->
+                                <div>
+                                    <h3 class="text-sm font-bold text-nv-gray-700 mb-4 tracking-wider uppercase">Omnichannel Communication</h3> <!-- Updated text, adjusted size, weight, added uppercase -->
+                                    <ul class="space-y-1">
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" /></svg><span class="text-sm font-medium text-nv-gray-700">Cloud Telephony</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.625 9.75a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H8.25m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0H12m4.125 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm0 0h-.375m-13.5 3.01c0 1.6 1.123 2.994 2.707 3.227 1.087.16 2.185.283 3.293.369V21l4.184-4.183a1.14 1.14 0 01.778-.332 48.154 48.154 0 005.57-.464c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.397 48.397 0 0012 3c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z\" /></svg><span class="text-sm font-medium text-nv-gray-700">Omnichannel Engagement</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0V12a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 12V5.25\" /></svg><span class="text-sm font-medium text-nv-gray-700">Unified Interaction Management</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0\" /></svg><span class="text-sm font-medium text-nv-gray-700">Smart Notifications</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" /><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z\" /></svg><span class="text-sm font-medium text-nv-gray-700">Engagement Analytics</span></a></li>
+                                    </ul>
+                                </div>
+
+                                <!-- Mobile CRM & Team Collaboration Column -->
+                                <div>
+                                    <h3 class="text-sm font-bold text-nv-gray-700 mb-4 tracking-wider uppercase">Mobile & Collab</h3> <!-- Adjusted size, weight, added uppercase -->
+                                    <ul class="space-y-1">
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18.75h3" /></svg><span class="text-sm font-medium text-nv-gray-700">Nexgo Mobile CRM sync</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg><span class="text-sm font-medium text-nv-gray-700">Real Time Alerts</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h3.75M9 15h3.75M9 18h3.75m3 .75H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08m-5.801 0c-.065.21-.1.433-.1.664 0 .414.336.75.75.75h4.5a.75.75 0 00.75-.75c0-.231-.035-.454-.1-.664M6.75 7.5H18a2.25 2.25 0 012.25 2.25v9a2.25 2.25 0 01-2.25 2.25H6.75a2.25 2.25 0 01-2.25-2.25v-9a2.25 2.25 0 012.25-2.25z" /></svg><span class="text-sm font-medium text-nv-gray-700">Task Coordination</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z\" /></svg><span class="text-sm font-medium text-nv-gray-700">Site Visit Management</span></a></li>
+                                        <li><a href="#" class="flex items-center p-2 -ml-2 rounded-md hover:bg-nv-gray-100 transition ease-in-out duration-150"><svg class="h-5 w-5 text-nv-blue mr-2 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 16.5V9.75m0 0l3 3m-3-3l-3 3M6.75 19.5a4.5 4.5 0 01-1.41-8.775 5.25 5.25 0 0110.233-2.33 3 3 0 013.758 3.848A3.752 3.752 0 0118 19.5H6.75z" /></svg><span class="text-sm font-medium text-nv-gray-700">Field Data Sync</span></a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Features Wrapper -->
+
+                <!-- Solutions Wrapper -->
+                <div class="relative" data-dropdown-trigger>
+                    <!-- Solutions Link -->
+                    <a href="#" class="flex items-center px-3 py-1 text-sm font-medium text-nv-gray-700 hover:text-nv-blue transition-colors duration-150 ease-in-out">
+                        Solutions
+                        <svg class="ml-1 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <!-- Solutions Dropdown Panel -->
+                    <div data-dropdown-content class="fixed top-16 left-1/2 transform -translate-x-1/2 mt-0 w-[960px] hidden origin-top rounded-xl bg-white shadow-lg focus:outline-none z-50 opacity-0 -translate-y-2 transition-all duration-150 ease-out pt-3">
+                        <div class="grid grid-cols-3 gap-6 p-6" role="none">
+                            <!-- For Developers -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">For Developers</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Centralize your lifecycle from lead capture to project handover and from Investment Management, Supply Chain and On time completion of Construction. Gain visibility, efficiency, and revenue tracking at scale.</p>
+                            </a>
+                            <!-- For Realtors -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">For Realtors</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Manage listings, proactively engage, schedule visits, automate follow-ups, leverage AI driven Insights, streamline documents and close faster—everything synced across devices.</p>
+                            </a>
+                            <!-- For Channel Partners -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0z\" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">For Channel Partners</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Onboard clients, track commissions, access real-time inventory, collaborate seamlessly, and boost partner performance with AI-powered automation and advanced analytics.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Solutions Wrapper -->
+
+                <!-- Pricing Wrapper -->
+                <div class="relative" data-dropdown-trigger>
+                    <a href="#" class="flex items-center px-3 py-1 text-sm font-medium text-nv-gray-700 hover:text-nv-blue transition-colors duration-150 ease-in-out">
+                        Pricing
+                        <svg class="ml-1 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <!-- Pricing Dropdown Panel -->
+                    <div data-dropdown-content class="fixed top-16 left-1/2 transform -translate-x-1/2 mt-0 w-[960px] hidden origin-top rounded-xl bg-white shadow-lg focus:outline-none z-50 opacity-0 -translate-y-2 transition-all duration-150 ease-out pt-3">
+                        <div class="grid grid-cols-2 gap-6 p-6" role="none">
+                            <!-- Plans for Developers -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 7.5l3 2.25-3 2.25m4.5 0h3m-9 8.25h13.5A2.25 2.25 0 0021 18V6a2.25 2.25 0 00-2.25-2.25H5.25A2.25 2.25 0 003 6v12a2.25 2.25 0 002.25 2.25z" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">Plans for Developers</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Tailored plans to enhance your development workflow.</p>
+                            </a>
+                            <!-- Plans for Realtors -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">Plans for Realtors</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Optimize your real estate operations with our plans.</p>
+                            </a>
+                            <!-- Channel Partner Pricing -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0z\" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">Channel Partner Pricing</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Exclusive pricing for our channel partners.</p>
+                            </a>
+                            <!-- Custom Enterprise Quotes -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">Custom Enterprise Quotes</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Get a quote tailored to your enterprise needs.</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Pricing Wrapper -->
+
+                <!-- Resources Wrapper -->
+                <div class="relative" data-dropdown-trigger>
+                    <!-- Resources Link -->
+                    <a href="#" class="flex items-center px-3 py-1 text-sm font-medium text-nv-gray-700 hover:text-nv-blue transition-colors duration-150 ease-in-out">
+                        Resources
+                        <svg class="ml-1 h-4 w-4 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                    <!-- Resources Dropdown Panel -->
+                    <div data-dropdown-content class="fixed top-16 left-1/2 transform -translate-x-1/2 mt-0 w-[960px] hidden origin-top rounded-xl bg-white shadow-lg focus:outline-none z-50 opacity-0 -translate-y-2 transition-all duration-150 ease-out pt-3">
+                        <div class="grid grid-cols-4 gap-6 p-6" role="none">
+                            <!-- FAQ's -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">FAQ's</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Answers to the most common queries</p>
+                            </a>
+                            <!-- Customer Stories -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10\" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">Customer Stories</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Real-world success with Nexprop.ai</p>
+                            </a>
+                            <!-- Platform Walkthroughs -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /><path stroke-linecap="round" stroke-linejoin="round" d="M15.91 11.672a.375.375 0 010 .656l-5.603 3.113a.375.375 0 01-.557-.328V8.887c0-.286.307-.466.557-.327l5.603 3.112z" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">Platform Walkthroughs</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Product videos and use case guides</p>
+                            </a>
+                            <!-- About Us -->
+                            <a href="#" class="group block p-5 rounded-xl border border-nv-gray-200 ring-1 ring-nv-teal ring-opacity-75 shadow-teal-md hover:bg-nv-gray-50 hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                                <div class="flex items-center mb-2">
+                                    <svg class="h-6 w-6 text-nv-blue group-hover:text-nv-teal transition-colors duration-150 ease-in-out mr-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 21v-8.25M15.75 21v-8.25M8.25 21v-8.25M3 9l9-6 9 6m-1.5 12V10.332A48.36 48.36 0 0012 9.75c-2.551 0-5.056.2-7.5.582V21M3 21h18M12 6.75h.008v.008H12V6.75z" /></svg>
+                                    <p class="text-lg font-semibold text-nv-gray-700">About Us</p>
+                                </div>
+                                <p class="text-base text-nv-gray-700">Learn about our vision, team, and roadmap</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Resources Wrapper -->
+
+            </nav>
+
+            <!-- Actions (Right) -->
+            <div class="hidden md:flex items-center space-x-4 group">
+                 <div class="contact-login-links flex items-center space-x-2 p-2 rounded-xl border border-nv-gray-100 bg-white shadow-md">
+                    <a href="#" class="px-3 py-1 text-sm font-medium">Login</a>
+                    <a href="#" class="inline-flex items-center px-3 py-1 text-sm font-medium bg-nv-blue text-white hover:bg-nv-teal hover:text-nv-gray-100 rounded-lg shadow-teal-md hover:shadow-teal-glow transition-all duration-150 ease-in-out">
+                        Contact Sales
+                        <svg class="ml-1.5 h-4 w-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+                        </svg>
+                    </a>
+                 </div>
+            </div>
+
+            <!-- Mobile Menu Button -->
+             <div class="md:hidden flex items-center ml-auto">
+                <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-nv-gray-700 hover:text-nv-blue hover:bg-nv-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-nv-blue" aria-controls="mobile-menu" aria-expanded="false">
+                    <span class="sr-only">Open main menu</span>
+                    <svg class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                    </svg>
+                    <svg class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Mobile menu, show/hide based on menu state. -->
+    <div class="md:hidden bg-white shadow-lg rounded-b-lg" id="mobile-menu" style="display: none;">
+        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+             <!-- Use text-nv-gray-700 and hover:text-nv-blue hover:bg-nv-gray-50 for mobile links -->
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-nv-gray-700 hover:text-nv-blue hover:bg-nv-gray-50">Products</a>
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-nv-gray-700 hover:text-nv-blue hover:bg-nv-gray-50">Solutions</a>
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-nv-gray-700 hover:text-nv-blue hover:bg-nv-gray-50">Features</a>
+            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-nv-gray-700 hover:text-nv-blue hover:bg-nv-gray-50">Resources</a>
+         </div>
+        <div class="pt-4 pb-3 border-t border-nv-gray-200">
+            <div class="px-2 space-y-1">
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-nv-gray-700 hover:text-nv-blue hover:bg-nv-gray-50">Contact Sales</a>
+                <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-nv-gray-700 hover:text-nv-blue hover:bg-nv-gray-50">Login</a>
+                <a href="#" class="block w-full mt-2 px-3 py-2 rounded-md text-base font-medium text-center text-white bg-nv-blue hover:bg-nv-teal shadow-teal-md hover:shadow-teal-glow transition-all duration-150 ease-in-out">Schedule demo</a>
+             </div>
+        </div>
+    </div>
+</header>
+
+<!-- Add new styles for menus -->
+<style>
+/* Base states for menus */
+[data-dropdown-content] { /* Target dropdown content directly */
+    display: none; /* Start hidden */
+    opacity: 0;
+    transform: translateY(-10px) translateX(-50%); /* Start slightly up */
+    transition: opacity 150ms ease-in-out, transform 150ms ease-in-out;
+    visibility: hidden; /* Use visibility for better accessibility */
+    position: fixed; /* Ensure it's fixed for proper positioning */
+    left: 50%; /* Center horizontally */
+    top: 4rem; /* Position below the header (adjust h-16 value if needed) */
+    z-index: 50;
+    margin-top: 0.5rem; /* Small gap */
+}
+
+/* Base font size adjustments */
+nav.hidden.md\:flex a { /* Corrected selector escaping */
+    font-size: 1rem; /* Increased from text-sm */
+    transition: all 0.2s ease;
+}
+
+/* Main navigation items */
+nav.hidden.md\:flex > div > a, /* Corrected selector escaping */
+.contact-login-links a {
+    font-size: 1rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+nav.hidden.md\:flex > div > a:hover, /* Corrected selector escaping */
+.contact-login-links a:hover {
+    font-weight: 600;
+}
+
+/* Dropdown menu items */
+[data-dropdown-content] .text-lg {
+    font-size: 1.25rem; /* Increased section headers */
+    font-weight: 600;
+}
+
+/* Products dropdown */
+[data-dropdown-content] a.group p.text-lg {
+    font-size: 1.125rem;
+    transition: all 0.2s ease;
+}
+
+[data-dropdown-content] a.group:hover p.text-lg {
+    font-weight: 600;
+}
+
+[data-dropdown-content] a.group p.text-base {
+    font-size: 1rem;
+}
+
+/* Features submenu */
+/* Adjust if Features dropdown has unique styling needs */
+[data-dropdown-content] .grid-cols-5 a { /* Example targeting items in features dropdown */
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+[data-dropdown-content] .grid-cols-5 a:hover {
+    font-weight: 600;
+}
+[data-dropdown-content] .grid-cols-5 .text-sm {
+     font-size: 0.9375rem;
+}
+[data-dropdown-content] .grid-cols-5 .text-lg { /* Headers within Features */
+    font-size: 1.1rem; /* Adjust as needed */
+    font-weight: 600;
+}
+
+
+/* Solutions section */
+[data-dropdown-content] .grid.grid-cols-3 p.text-lg {
+    font-size: 1.125rem;
+}
+
+[data-dropdown-content] .grid.grid-cols-3 p.text-base {
+    font-size: 1rem;
+}
+
+/* Resources section */
+[data-dropdown-content] .grid.grid-cols-4 p.text-lg {
+    font-size: 1.125rem;
+}
+
+[data-dropdown-content] .grid.grid-cols-4 p.text-base {
+    font-size: 1rem;
+}
+
+/* Contact/Login buttons */
+.contact-login-links a {
+    font-size: 1rem;
+    transition: all 0.2s ease;
+}
+
+.contact-login-links a:hover {
+    font-weight: 600;
+}
+
+/* Mobile menu adjustments */
+#mobile-menu a {
+    font-size: 1.125rem;
+    transition: all 0.2s ease;
+}
+
+#mobile-menu a:hover {
+    font-weight: 600;
+}
+</style>
+<!-- End Navbar -->
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <h1 class="text-4xl font-bold text-nv-blue mb-10 border-b border-nv-gray-200 pb-4">Pre-Sales Management</h1>
+
+        <div class="space-y-12">
+            <!-- AI Agents for Lead Management Section -->
+            <section id="lead-management">
+                <h2 class="text-2xl font-semibold text-nv-gray-700 mb-4">AI Agents for Lead Management</h2>
+                <div class="bg-white p-8 rounded-xl shadow-md border border-nv-gray-100 space-y-4">
+                    <p class="text-base leading-relaxed">Leverage Nexprop's intelligent AI agents to automate and optimize every step of your lead management process. Our system captures leads from diverse sources like web forms, property portals, and social media, instantly qualifying and scoring them based on engagement, demographics, and expressed interest.</p>
+                    <ul class="list-disc list-inside space-y-2 text-base text-nv-gray-700">
+                        <li><strong>Automated Lead Capture</strong></li>
+                        <li><strong>Auto Lead Scoring</strong></li>
+                        <li><strong>Pipeline Visualization</strong></li>
+                        <li><strong>Automated Quotations</strong></li>
+                        <li><strong>Appointment Coordination</strong></li>
+                        <li><strong>Lead Nurturing</strong></li>
+                        <li><strong>Invoice Scheduling</strong></li>
+                        <li><strong>Predictive Lead Prioritization</strong></li>
+                    </ul>
+                    <p class="text-base leading-relaxed font-medium text-nv-blue">Result: Faster response times, improved lead quality, and significantly higher conversion rates.</p>
+                </div>
+            </section>
+
+            <!-- AI Agents for Property Management Section -->
+            <section id="property-management">
+                <h2 class="text-2xl font-semibold text-nv-gray-700 mb-4">AI-Assisted Property Inquiry & Viewing Management</h2>
+                 <div class="bg-white p-8 rounded-xl shadow-md border border-nv-gray-100 space-y-4">
+                    <p class="text-base leading-relaxed">Streamline the pre-sales property interaction phase with AI. Nexprop helps manage listings effectively and automates communication, ensuring a seamless experience for potential buyers even before they speak to an agent.</p>
+                     <ul class="list-disc list-inside space-y-2 text-base text-nv-gray-700">
+                         <li><strong>Inventory Management</strong></li>
+                     </ul>
+                     <p class="text-base leading-relaxed font-medium text-nv-blue">Result: Enhanced prospect experience, reduced administrative burden, and more efficient viewing coordination.</p>
+                </div>
+            </section>
+
+            <!-- AI Insights and Analytics Section -->
+            <section id="insights-analytics">
+                <h2 class="text-2xl font-semibold text-nv-gray-700 mb-4">Pre-Sales AI Insights and Analytics</h2>
+                 <div class="bg-white p-8 rounded-xl shadow-md border border-nv-gray-100 space-y-4">
+                    <p class="text-base leading-relaxed">Turn your pre-sales data into a strategic advantage. Nexprop.ai analyzes interactions, lead behavior, and market signals to provide actionable intelligence that fuels smarter decisions and drives growth.</p>
+                    <ul class="list-disc list-inside space-y-2 text-base text-nv-gray-700">
+                        <li><strong>AI assistant integration</strong></li>
+                        <li><strong>sentiment insights</strong></li>
+                        <li><strong>customer journey analysis</strong></li>
+                    </ul>
+                     <p class="text-base leading-relaxed font-medium text-nv-blue">Result: Data-driven strategy, optimized resource allocation, and proactive adjustments to market dynamics.</p>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+<footer class="bg-nv-dark-700 text-white pt-16 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- Main Footer Content -->
+        <div class="flex flex-col lg:flex-row pb-12 border-b border-white/10">
+            <!-- Logo and Copyright Section -->
+            <div class="w-full lg:w-2/6 pr-0 lg:pr-12 mb-8 lg:mb-0">
+                <div class="flex flex-col space-y-6">
+                    <!-- Logo -->
+                    <a href="/" class="inline-block">
+                        <img class="h-10 w-auto" src="assets/images/nexprop_horizontal.png" alt="Nexprop.ai logo">
+                    </a>
+                    <p class="text-sm text-nv-gray-200">
+                        &copy; 2024 Nexprop AI Inc.<br>
+                        All rights reserved.
+                    </p>
+                    
+                    <!-- Social Media Links -->
+                    <div class="flex space-x-4 pt-2">
+                        <a href="#" class="text-nv-gray-200 hover:text-white transition-colors duration-200">
+                            <span class="sr-only">LinkedIn</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                            </svg>
+                        </a>
+                        <a href="#" class="text-nv-gray-200 hover:text-white transition-colors duration-200">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path fill-rule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z\" clip-rule=\"evenodd\" />
+                            </svg>
+                        </a>
+                        <a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">
+                            <span class=\"sr-only\">X</span>
+                            <svg class=\"h-6 w-6\" fill=\"currentColor\" viewBox=\"0 0 24 24\" aria-hidden=\"true\">
+                                <path d=\"M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z\"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Links Section -->
+            <div class=\"w-full lg:w-4/6\">
+                <div class=\"grid grid-cols-2 md:grid-cols-5 gap-6\">
+                    <!-- Products Column -->
+                    <div>
+                        <h3 class=\"text-lg font-semibold mb-4 text-nv-teal\">Products</h3>
+                        <ul class=\"space-y-3\">
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">NexCore</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">NexEngage</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">NexVision</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">NexGo</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Property Analytics</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Features Column -->
+                    <div>
+                        <h3 class \"text-lg font-semibold mb-4 text-nv-teal\">Features</h3>
+                        <ul class=\"space-y-3\">
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Pre-Sales Management</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Post-Sales Management</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Channel Partner Management</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Omnichannel Communication</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Mobile CRM</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Solutions Column -->
+                    <div>
+                        <h3 class \"text-lg font-semibold mb-4 text-nv-teal\">Solutions</h3>
+                        <ul class=\"space-y-3\">
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">For Developers</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">For Realtors</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">For Channel Partners</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Enterprise</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Mid-market</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Pricing Column -->
+                    <div>
+                        <h3 class \"text-lg font-semibold mb-4 text-nv-teal\">Pricing</h3>
+                        <ul class \"space-y-3\">
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Plans for Developers</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Plans for Realtors</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Channel Partner Pricing</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Custom Enterprise Quotes</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- Resources Column -->
+                    <div>
+                        <h3 class \"text-lg font-semibold mb-4 text-nv-teal\">Resources</h3>
+                        <ul class \"space-y-3\">
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Blog</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Case Studies</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Newsroom</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Help Center</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">About Us</a></li>
+                            <li><a href=\"#\" class=\"text-nv-gray-200 hover:text-white transition-colors duration-200\">Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Footer Section -->
+        <div class=\"flex flex-col md:flex-row justify-between items-center pt-8\">
+            <!-- Legal Links -->
+            <div class=\"flex flex-wrap justify-center md:justify-start gap-x-8 gap-y-2 mb-4 md:mb-0\">
+                <a href=\"#\" class=\"text-sm text-nv-gray-200 hover:text-white transition-colors duration-200\">Terms of Use</a>
+                <a href=\"#\" class=\"text-sm text-nv-gray-200 hover:text-white transition-colors duration-200\">Privacy Policy</a>
+            </div>
+            
+            <!-- CIN Information -->
+            <div class=\"text-sm text-nv-gray-200\">
+                CIN: U62013TS2024PTC189863
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Back to Top Button -->
+<button id=\"back-to-top\" class=\"fixed bottom-6 right-6 p-3 rounded-full bg-nv-teal text-white shadow-lg transform transition-transform duration-300 hover:scale-110 opacity-0 invisible\">
+    <svg class=\"h-5 w-5\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\">
+        <path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M5 10l7-7m0 0l7 7m-7-7v18\" />
+    </svg>
+</button>
+
+<script>
+    // Back to top button functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const backToTopButton = document.getElementById('back-to-top');
+        
+        // Show button when scrolled down
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 300) {
+                backToTopButton.classList.add('opacity-100');
+                backToTopButton.classList.remove('opacity-0', 'invisible');
+            } else {
+                backToTopButton.classList.remove('opacity-100');
+                backToTopButton.classList.add('opacity-0');
+                // Only add invisible class after opacity transition
+                setTimeout(() => {
+                    if (window.scrollY <= 300) {
+                        backToTopButton.classList.add('invisible');
+                    }
+                }, 300);
+            }
+        });
+        
+        // Scroll to top when clicked
+        backToTopButton.addEventListener('click', function() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+    });
+</script> 
+
+</body>
+</html> 

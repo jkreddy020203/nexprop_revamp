@@ -138,11 +138,11 @@
 <body class="bg-white font-sans text-nv-gray-700 relative">
 
     <!-- Cursor Gradient Effect (Blue Layer) -->
-    <div id="cursor-gradient-blue" class="pointer-events-none fixed inset-0 -z-10 transition duration-300"
+    <div id="cursor-gradient-blue" class="pointer-events-none fixed inset-0 z-10 transition duration-300"
          style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(45, 79, 155, 0.2), transparent 40%); opacity: 1;">
     </div>
     <!-- Cursor Gradient Effect (Teal Layer) -->     
-     <div id="cursor-gradient-teal" class="pointer-events-none fixed inset-0 -z-10 transition duration-300"
+     <div id="cursor-gradient-teal" class="pointer-events-none fixed inset-0 z-10 transition duration-300"
          style="background: radial-gradient(600px circle at var(--x) var(--y), rgba(117, 185, 160, 0.3), transparent 40%); opacity: 0;">
     </div>
 
@@ -186,6 +186,25 @@
             }
         } else {
             console.log('Building animation elements not found.');
+        }
+
+        // Initialize Sequential Tower Animation (New)
+        console.log('Initializing sequential tower animation...');
+        const towers = document.querySelectorAll('.rising-tower');
+        if (towers.length > 0) {
+            console.log(`Found ${towers.length} rising towers.`);
+            const baseDelay = 100; // Initial delay before the first tower starts
+            const staggerDelay = 150; // Delay between each tower rising (ms)
+
+            towers.forEach((tower, index) => {
+                setTimeout(() => {
+                    tower.classList.remove('opacity-0', 'translate-y-full');
+                    tower.classList.add('opacity-100', 'translate-y-0');
+                }, baseDelay + index * staggerDelay);
+            });
+            console.log('Tower animation timeouts scheduled.');
+        } else {
+             console.log('No .rising-tower elements found to animate.');
         }
 
         // Re-initialize Mobile Menu Toggle
@@ -537,6 +556,7 @@
         const tealGradient = document.getElementById('cursor-gradient-teal');
 
         window.addEventListener('mousemove', (e) => {
+          console.log('Mousemove detected, updating gradients...');
           const xRatio = e.clientX / window.innerWidth;
           const x = `${e.clientX}px`;
           const y = `${e.clientY}px`;

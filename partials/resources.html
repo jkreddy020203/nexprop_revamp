@@ -1,134 +1,120 @@
 <!-- Resources Section -->
-<section class="py-16 bg-white">
+<section class="py-16 lg:py-24 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <!-- Section Header -->
-        <div class="text-center mb-12">
+        <div class="text-center mb-12 lg:mb-16">
             <h2 class="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-nv-blue to-purple-500 bg-clip-text text-transparent">Resources</h2>
             <p class="text-nv-gray-700 text-lg max-w-2xl mx-auto">Take a look at our guides, case studies and other resources to help you succeed.</p>
         </div>
 
-        <!-- Resources Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Resource Card 1 - Guide -->
-            <div class="bg-nv-gray-50 rounded-xl p-8 shadow-md transition-all duration-300 hover:shadow-teal-md">
-                <div class="flex flex-col h-full">
-                    <div class="mb-6">
-                        <h3 class="text-xl font-semibold text-nv-gray-700 mb-3">How to optimize your property management workflow</h3>
-                        <p class="text-nv-gray-700 mb-4">Learn the best practices for streamlining your property management process and increasing efficiency.</p>
-                        <a href="#" class="inline-flex items-center group text-nv-blue font-semibold text-sm hover:text-nv-teal transition-colors duration-200">
-                            <span>Read the guide</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
-                    </div>
-                    <div class="mt-auto">
-                        <div class="flex items-center">
-                            <div class="text-xs text-nv-gray-700 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                May 15, 2024
-                            </div>
-                            <span class="mx-2 text-nv-gray-700">•</span>
-                            <div class="text-xs text-nv-gray-700">10 min read</div>
-                        </div>
+        <!-- Asymmetrical Resources Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+
+            <!-- Card 1: Guide (Tall) -->
+            <div class="bg-nv-gray-50 rounded-xl p-6 md:p-8 shadow-md flex flex-col row-span-2 order-1 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+                <div class="mb-6 flex-grow">
+                    <h3 class="text-lg md:text-xl font-semibold text-nv-gray-700 mb-3">How to optimize your property management workflow</h3>
+                    <p class="text-nv-gray-700 mb-4">Learn the best practices for streamlining your property management process and increasing efficiency.</p>
+                    <a href="#" class="inline-flex items-center group text-nv-blue font-semibold text-sm px-3 py-1 rounded-md hover:bg-nv-blue/10 transition-colors duration-200">
+                        <span>Read the guide</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="mt-auto">
+                    <div class="flex items-center text-xs text-nv-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5 text-nv-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                        </svg>
+                        <span>May 15, 2024</span>
+                        <span class="mx-2 text-nv-gray-300">•</span>
+                        <span>10 min read</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Resource Card 2 - Case Study -->
-            <div class="bg-nv-gray-50 rounded-xl p-8 shadow-md transition-all duration-300 hover:shadow-teal-md">
-                <div class="flex flex-col h-full">
-                    <div class="mb-6">
-                        <div class="bg-nv-blue bg-opacity-10 text-nv-blue rounded-md px-3 py-1 text-xs font-medium inline-block mb-3">
-                            Case Study
-                        </div>
-                        <h3 class="text-xl font-semibold text-nv-gray-700 mb-3">How Clearview Properties increased occupancy by 28%</h3>
-                        <p class="text-nv-gray-700 mb-4">Learn how this property management company utilized Nexprop's analytics to make data-driven decisions.</p>
-                        <a href="#" class="inline-flex items-center group text-nv-blue font-semibold text-sm hover:text-nv-teal transition-colors duration-200">
-                            <span>Read the case study</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
+            <!-- Card 2: Case Study (Short) -->
+            <div class="bg-nv-gray-50 rounded-xl p-6 md:p-8 shadow-md flex flex-col order-2 md:order-2 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+                <div class="mb-6 flex-grow">
+                    <div class="bg-nv-blue bg-opacity-10 text-nv-blue rounded-md px-3 py-1 text-xs font-medium inline-block mb-3">
+                        Case Study
                     </div>
-                    <div class="mt-auto">
-                        <div class="flex items-center">
-                            <div class="text-xs text-nv-gray-700 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                April 22, 2024
-                            </div>
-                            <span class="mx-2 text-nv-gray-700">•</span>
-                            <div class="text-xs text-nv-gray-700">8 min read</div>
-                        </div>
+                    <h3 class="text-lg md:text-xl font-semibold text-nv-gray-700 mb-3">How Clearview Properties increased occupancy by 28%</h3>
+                    <p class="text-nv-gray-700 mb-4">Learn how this property management company utilized Nexprop's analytics to make data-driven decisions.</p>
+                    <a href="#" class="inline-flex items-center group text-nv-blue font-semibold text-sm px-3 py-1 rounded-md hover:bg-nv-blue/10 transition-colors duration-200">
+                        <span>Read the case study</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="mt-auto">
+                    <div class="flex items-center text-xs text-nv-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5 text-nv-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                        </svg>
+                        <span>April 22, 2024</span>
+                        <span class="mx-2 text-nv-gray-300">•</span>
+                        <span>8 min read</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Resource Card 3 - Webinar -->
-            <div class="bg-nv-gray-50 rounded-xl p-8 shadow-md transition-all duration-300 hover:shadow-teal-md">
-                <div class="flex flex-col h-full">
-                    <div class="mb-6">
-                        <div class="bg-nv-teal bg-opacity-10 text-nv-teal rounded-md px-3 py-1 text-xs font-medium inline-block mb-3">
-                            Webinar
-                        </div>
-                        <h3 class="text-xl font-semibold text-nv-gray-700 mb-3">AI-Powered Property Insights: A Deep Dive</h3>
-                        <p class="text-nv-gray-700 mb-4">Join our experts as they explore how AI is transforming property management and market analysis.</p>
-                        <a href="#" class="inline-flex items-center group text-nv-blue font-semibold text-sm hover:text-nv-teal transition-colors duration-200">
-                            <span>Watch the webinar</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
+            <!-- Card 3: Webinar (Tall) -->
+            <div class="bg-nv-gray-50 rounded-xl p-6 md:p-8 shadow-md flex flex-col row-span-2 order-4 md:order-3 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+                <div class="mb-6 flex-grow">
+                    <div class="bg-nv-teal bg-opacity-10 text-nv-teal rounded-md px-3 py-1 text-xs font-medium inline-block mb-3">
+                        Webinar
                     </div>
-                    <div class="mt-auto">
-                        <div class="flex items-center">
-                            <div class="text-xs text-nv-gray-700 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                March 10, 2024
-                            </div>
-                            <span class="mx-2 text-nv-gray-700">•</span>
-                            <div class="text-xs text-nv-gray-700">45 min</div>
-                        </div>
+                    <h3 class="text-lg md:text-xl font-semibold text-nv-gray-700 mb-3">AI-Powered Property Insights: A Deep Dive</h3>
+                    <p class="text-nv-gray-700 mb-4">Join our experts as they explore how AI is transforming property management and market analysis.</p>
+                    <a href="#" class="inline-flex items-center group text-nv-blue font-semibold text-sm px-3 py-1 rounded-md hover:bg-nv-teal/10 transition-colors duration-200">
+                        <span>Watch the webinar</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="mt-auto">
+                    <div class="flex items-center text-xs text-nv-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5 text-nv-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                        </svg>
+                        <span>March 10, 2024</span>
+                        <span class="mx-2 text-nv-gray-300">•</span>
+                        <span>45 min</span>
                     </div>
                 </div>
             </div>
 
-            <!-- Resource Card 4 - eBook -->
-            <div class="bg-nv-gray-50 rounded-xl p-8 shadow-md transition-all duration-300 hover:shadow-teal-md">
-                <div class="flex flex-col h-full">
-                    <div class="mb-6">
-                        <div class="bg-purple-500 bg-opacity-10 text-purple-500 rounded-md px-3 py-1 text-xs font-medium inline-block mb-3">
-                            eBook
-                        </div>
-                        <h3 class="text-xl font-semibold text-nv-gray-700 mb-3">The Future of Real Estate Management</h3>
-                        <p class="text-nv-gray-700 mb-4">A comprehensive guide to emerging trends, technologies and strategies in property management.</p>
-                        <a href="#" class="inline-flex items-center group text-nv-blue font-semibold text-sm hover:text-nv-teal transition-colors duration-200">
-                            <span>Download the eBook</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </a>
+            <!-- Card 4: eBook (Short) -->
+            <div class="bg-nv-gray-50 rounded-xl p-6 md:p-8 shadow-md flex flex-col order-3 md:order-4 transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1">
+                <div class="mb-6 flex-grow">
+                    <div class="bg-purple-500 bg-opacity-10 text-purple-500 rounded-md px-3 py-1 text-xs font-medium inline-block mb-3">
+                        eBook
                     </div>
-                    <div class="mt-auto">
-                        <div class="flex items-center">
-                            <div class="text-xs text-nv-gray-700 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
-                                </svg>
-                                February 15, 2024
-                            </div>
-                            <span class="mx-2 text-nv-gray-700">•</span>
-                            <div class="text-xs text-nv-gray-700">32 pages</div>
-                        </div>
+                    <h3 class="text-lg md:text-xl font-semibold text-nv-gray-700 mb-3">The Future of Real Estate Management</h3>
+                    <p class="text-nv-gray-700 mb-4">A comprehensive guide to emerging trends, technologies and strategies in property management.</p>
+                    <a href="#" class="inline-flex items-center group text-nv-blue font-semibold text-sm px-3 py-1 rounded-md hover:bg-purple-500/10 transition-colors duration-200">
+                        <span>Download the eBook</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1 group-hover:translate-x-1 transition-transform duration-200" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M10.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L12.586 11H5a1 1 0 110-2h7.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+                <div class="mt-auto">
+                    <div class="flex items-center text-xs text-nv-gray-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1.5 text-nv-gray-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                        </svg>
+                        <span>February 15, 2024</span>
+                        <span class="mx-2 text-nv-gray-300">•</span>
+                        <span>32 pages</span>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </section> 
